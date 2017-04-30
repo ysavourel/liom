@@ -30,6 +30,7 @@ public class NCObjects implements INCObjects {
 		return (( map != null ) && !map.isEmpty() );
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T get (String type) {
 		if ( map == null ) return null;
