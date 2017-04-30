@@ -16,21 +16,48 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.IDocument;
+import org.oasisopen.liom.api.core.ICollection;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
-import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
+import org.oasisopen.liom.api.core.IWithContext;
+import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+import org.oasisopen.liom.api.core.IWithNCFields;
+import org.oasisopen.liom.api.core.IWithNCObjects;
+import org.oasisopen.liom.api.core.IWithNotes;
 
-public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument {
+class ImplData3<T> extends ImplData2<T> 
+implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<T>, IGroupOrUnit {
 
-	final private IDocument document;
+	final private boolean isUnit;
+	final private IWithGroupOrUnit parent;
 	
 	private String id;
-	private String original;
+	private String name;
+	private String type;
 	
-	public SubDocument (IDocument document) {
-		this.document = document;
+	public ImplData3 (boolean isUnit,
+		IWithGroupOrUnit parent)
+	{
+		this.isUnit = isUnit;
+		this.parent = parent;
+	}
+	
+	@Override
+	public boolean isUnit () {
+		return isUnit;
+	}
+
+	@Override
+	public IUnit asUnit () {
+		if ( isUnit ) return (IUnit)this;
+		else return null;
+	}
+
+	@Override
+	public IGroup asGroup () {
+		if ( !isUnit ) return (IGroup)this;
+		else return null;
 	}
 
 	@Override
@@ -44,32 +71,28 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	}
 
 	@Override
-	public String getOriginal () {
-		return original;
+	public String getName () {
+		return name;
 	}
 
 	@Override
-	public void setOriginal (String original) {
-		this.original = original;
+	public void setName (String name) {
+		this.name = name;
 	}
 
 	@Override
-	public IDocument getDocument () {
-		return document;
+	public String getType () {
+		return type;
 	}
 
 	@Override
-	public IUnit addUnit () {
-		IUnit item = new Unit(this);
-		list.add(item);
-		return item;
+	public void setType (String type) {
+		this.type = type;
 	}
 
 	@Override
-	public IGroup addGroup () {
-		IGroup item = new Group(this);
-		list.add(item);
-		return item;
+	public IWithGroupOrUnit getParent () {
+		return parent;
 	}
 
 }

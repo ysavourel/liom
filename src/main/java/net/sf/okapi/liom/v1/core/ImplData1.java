@@ -16,89 +16,61 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.AppliesTo;
+import org.oasisopen.liom.api.core.ICollection;
 import org.oasisopen.liom.api.core.INCFields;
+import org.oasisopen.liom.api.core.INCObjects;
 import org.oasisopen.liom.api.core.INote;
+import org.oasisopen.liom.api.core.IWithContext;
+import org.oasisopen.liom.api.core.IWithNCFields;
+import org.oasisopen.liom.api.core.IWithNCObjects;
 import org.oasisopen.liom.api.core.IWithNotes;
 
-public class Note implements INote {
+class ImplData1 extends Context
+implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields {
 
-	private IWithNotes parent;
-	private String text;
-	private String id;
-	private AppliesTo appliesTo = AppliesTo.UNDEFINED;
-	private String category;
-	private int priority;
-	private INCFields ncFlds;
+	private BaseCollection<INote> notes;
+	private NCObjects ncObjs;
+	private NCFields ncFlds;
 	
-	public Note (IWithNotes parent) {
-		this.parent = parent;
+	@Override
+	public boolean hasNote () {
+		return (( notes != null ) && !notes.isEmpty() );
 	}
 
 	@Override
-	public String getText () {
-		return text;
+	public ICollection<INote> getNotes () {
+		if ( notes == null ) notes = new BaseCollection<>();
+		return notes;
 	}
 
 	@Override
-	public INote setText (String text) {
-		this.text = text;
-		return this;
+	public INote addNote () {
+		getNotes();
+		INote note = new Note(this);
+		notes.add(note);
+		return note;
 	}
 
 	@Override
-	public String getId () {
-		return id;
+	public boolean hasNCObject (String type) {
+		if ( ncObjs != null ) {
+			return ncObjs.has(type);
+		}
+		return false;
 	}
 
 	@Override
-	public INote setId (String id) {
-		this.id = id;
-		return this;
+	public INCObjects getNCObjects () {
+		if ( ncObjs == null ) {
+			ncObjs = new NCObjects();
+		}
+		return ncObjs;
 	}
 
 	@Override
-	public AppliesTo getAppliesTo () {
-		return appliesTo;
-	}
-
-	@Override
-	public INote setAppliesTo (AppliesTo appliesTo) {
-		this.appliesTo = appliesTo;
-		return this;
-	}
-
-	@Override
-	public String getCategory () {
-		return category;
-	}
-
-	@Override
-	public INote setCategory (String category) {
-		this.category = category;
-		return this;
-	}
-
-	@Override
-	public int getPriority () {
-		return priority;
-	}
-
-	@Override
-	public INote setPriority (int priority) {
-		this.priority = priority;
-		return this;
-	}
-
-	@Override
-	public IWithNotes getParent () {
-		return parent;
-	}
-
-	@Override
-	public boolean hasNCField (String name) {
+	public boolean hasNCField (String type) {
 		if ( ncFlds != null ) {
-			return ncFlds.has(name);
+			return ncFlds.has(type);
 		}
 		return false;
 	}

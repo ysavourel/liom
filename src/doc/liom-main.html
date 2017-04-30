@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+http://odyniec.net/articles/turning-lists-into-trees/
+http://jsfiddle.net/davidThomas/Ljnhc/1/
+<html>
+  <head>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <link rel="stylesheet" type="text/css" href="stylesheet.css">
+    <title>LIOM API</title>
+  </head>
+  <body>
+    <p>Prototype for the Localization Interchange Object Model API.</p>
+    <ul>
+      <li><strong>This document is UNDER DEVELOPMENT and NOT COMPLETE YET and it covers only A PORTION of the object model</strong>.</li>
+      <li><strong>This document Is ONLY A PRELIMINARY PROTOTYPE and it HAS NO OFFICIAL STANDING of any kind</strong>.</li>
+    </ul>
+    <h2><a id="overview" name="overview"></a>Overview Chart</h2>
+<pre>
+Legend:  1 : one
+         ? : zero or one
+         + : one or more
+         * : zero, one or more
+         # : right-side also implements left-side
+       ... : recursive
+</pre>
+    <p>The object model from the document level down to the unit is as follows:<br>
+      (Note that the order of the objects in the charts is not significant and
+      not related to the order in any serialization).</p>
+    <pre>
+IDocument
+ |
+ +-- ISubDocument+
+      |
+      +-- IWithContext
+      |
+      +-- IWithNCObjects
+      |    |
+      |    +-- INCObjects
+      |
+      +-- IWithNotes
+      |    |
+      |    +-- INote*
+      |
+      +-- ISkeleton?
+      |
+      +-- (IGroupOrUnit#IGroup*, IGroupOrUnit#IUnit+)
+            |            |                     |
+            |            |                     +-- See details below
+            |            |
+            |            +-- (IGroupOrUnit#IGroup*... | IGroupOrUnit#IUnit)*
+            |
+            +-- IWithContext
+            |
+            +-- IWithNotes
+                 |
+                 +-- INote*
+TODO
+</pre>
+
+    <p><a name="chartUnit"></a>The object model from the unit down is as follows:</p>
+
+<pre>
+IUnit
+ |
+ 
+ TODO
+</pre>
+
+    <p><br>
+    </p>
+  </body>
+</html>

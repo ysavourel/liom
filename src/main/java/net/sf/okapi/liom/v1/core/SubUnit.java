@@ -16,41 +16,38 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.IGroup;
-import org.oasisopen.liom.api.core.IGroupOrUnit;
-import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+import org.oasisopen.liom.api.core.IIgnorable;
+import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.ISource;
+import org.oasisopen.liom.api.core.ISubUnit;
+import org.oasisopen.liom.api.core.ITarget;
 
-public class ContextAndNotesAndCollectionAndGOU<T> extends ContextAndNotesAndCollection<T> implements IGroupOrUnit {
+public class SubUnit implements ISubUnit {
 
-	final private boolean isUnit;
-	final private IWithGroupOrUnit parent;
+	final private boolean isSegment;
 	
 	private String id;
-	private String name;
-	private String type;
+	private ISource source = new Source();
+	private ITarget target;
 	
-	public ContextAndNotesAndCollectionAndGOU (boolean isUnit,
-		IWithGroupOrUnit parent)
-	{
-		this.isUnit = isUnit;
-		this.parent = parent;
+	public SubUnit (boolean isSegment) {
+		this.isSegment = isSegment;
 	}
 	
 	@Override
-	public boolean isUnit () {
-		return isUnit;
+	public boolean isSegment () {
+		return isSegment;
 	}
 
 	@Override
-	public IUnit asUnit () {
-		if ( isUnit ) return (IUnit)this;
+	public ISegment asSegment () {
+		if ( isSegment ) return (ISegment)this;
 		else return null;
 	}
 
 	@Override
-	public IGroup asGroup () {
-		if ( !isUnit ) return (IGroup)this;
+	public IIgnorable asIgnorable () {
+		if ( !isSegment ) return (IIgnorable)this;
 		else return null;
 	}
 
@@ -65,28 +62,13 @@ public class ContextAndNotesAndCollectionAndGOU<T> extends ContextAndNotesAndCol
 	}
 
 	@Override
-	public String getName () {
-		return name;
+	public ISource getSource () {
+		return source;
 	}
 
 	@Override
-	public void setName (String name) {
-		this.name = name;
-	}
-
-	@Override
-	public String getType () {
-		return type;
-	}
-
-	@Override
-	public void setType (String type) {
-		this.type = type;
-	}
-
-	@Override
-	public IWithGroupOrUnit getParent () {
-		return parent;
+	public ITarget getTarget () {
+		return target;
 	}
 
 }

@@ -16,20 +16,23 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
 import org.oasisopen.liom.api.core.INote;
+import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ISubDocument;
+import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
 import org.oasisopen.liom.api.core.IWithNotes;
-import org.oasisopen.liom.api.glossary.IGlossary;
-
-import net.sf.okapi.liom.v1.core.Factory;
 
 public class DocumentTests {
 
@@ -65,6 +68,11 @@ public class DocumentTests {
 		String str = unit.getNCObjects().get("ext:test");
 		assertEquals("ext:test DATA", str);
 		
+		ISegment seg = unit.addSegment();
+		seg.setId("f1-u1-s1");
+		seg.getSource().append("Source").append(' ').append("text.");
+		assertEquals("f1-u1-s1", seg.getId());
+		assertEquals("Source text.", seg.getSource().toString());
 		
 		IGroup group = sd.addGroup();
 		assertTrue(sd==group.getParent());
@@ -106,7 +114,12 @@ public class DocumentTests {
 		System.out.println(indent+"type="+gou.getType());
 		showNotes(gou, indent);
 		if ( gou.isUnit() ) {
-			
+			IUnit unit = gou.asUnit();
+			for ( int i=0; i<unit.size(); i++ ) {
+				ISubUnit su = unit.get(i);
+				System.out.println(indent+(su.isSegment() ? "segment" : "Ignorable"));
+				showSubUnit(su, indent);
+			}
 		}
 		else {
 			IGroup group = gou.asGroup();
@@ -141,6 +154,14 @@ public class DocumentTests {
 				System.out.println(indent+" text="+note.getText());
 			}
 		}
+	}
+	
+	private void showSubUnit (ISubUnit su,
+		String indent)
+	{
+		System.out.println(indent+" id="+su.getId());
+		ISource src = su.getSource();
+		System.out.println(indent+" src="+src.toString());
 	}
 
 }

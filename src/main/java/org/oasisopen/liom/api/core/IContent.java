@@ -26,10 +26,14 @@ public interface IContent {
 
 	public String getLang ();
 	
-	public void setLang (String lang);
+	public IContent setLang (String lang);
 	
 	public boolean getPreserveWS ();
 	
-	public void setPreserveWS ();
+	public IContent setPreserveWS (boolean preserveWS);
+
+	public IContent append (String plainText);
+
+	public IContent append (char ch);
 
 }

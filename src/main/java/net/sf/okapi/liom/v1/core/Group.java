@@ -21,7 +21,7 @@ import org.oasisopen.liom.api.core.IGroupOrUnit;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithGroupOrUnit;
 
-public class Group extends ContextAndNotesAndCollectionAndGOU<IGroupOrUnit> implements IGroup {
+public class Group extends ImplData3<IGroupOrUnit> implements IGroup {
 
 	public Group (IWithGroupOrUnit parent) {
 		super(false, parent);

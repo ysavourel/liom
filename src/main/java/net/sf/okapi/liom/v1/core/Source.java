@@ -16,30 +16,12 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.IIgnorable;
-import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISubUnit;
-import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+import org.oasisopen.liom.api.core.ISource;
 
-public class Unit extends ImplData3<ISubUnit> implements IUnit {
+public class Source extends Content implements ISource {
 
-	public Unit (IWithGroupOrUnit parent) {
-		super(true, parent);
-	}
-
-	@Override
-	public ISegment addSegment () {
-		ISegment item = new Segment();
-		list.add(item);
-		return item;
-	}
-
-	@Override
-	public IIgnorable addIgnorable () {
-		IIgnorable item = new Ignorable();
-		list.add(item);
-		return item;
+	public Source () {
+		super(true);
 	}
 
 }

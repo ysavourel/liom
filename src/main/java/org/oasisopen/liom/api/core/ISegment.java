@@ -23,7 +23,7 @@ public interface ISegment extends ISubUnit {
 
 	public boolean getCanReSegment ();
 	
-	public void setCanReSegment (boolean canReSegment);
+	public void setCanResegment (boolean canResegment);
 	
 	public State getState ();
 	

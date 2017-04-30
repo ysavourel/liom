@@ -16,60 +16,47 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.IDocument;
-import org.oasisopen.liom.api.core.IGroup;
-import org.oasisopen.liom.api.core.IGroupOrUnit;
-import org.oasisopen.liom.api.core.ISubDocument;
-import org.oasisopen.liom.api.core.IUnit;
+import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.State;
 
-public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument {
+public class Segment extends SubUnit implements ISegment {
 
-	final private IDocument document;
+	private boolean canResegment;
+	private State state = State.INITIAL;
+	private String subState;
 	
-	private String id;
-	private String original;
-	
-	public SubDocument (IDocument document) {
-		this.document = document;
+	public Segment () {
+		super(true);
 	}
 
 	@Override
-	public String getId () {
-		return id;
+	public boolean getCanReSegment () {
+		return canResegment;
 	}
 
 	@Override
-	public void setId (String id) {
-		this.id = id;
+	public void setCanResegment (boolean canReSegment) {
+		this.canResegment = canReSegment;
 	}
 
 	@Override
-	public String getOriginal () {
-		return original;
+	public State getState () {
+		return state;
 	}
 
 	@Override
-	public void setOriginal (String original) {
-		this.original = original;
+	public void setState (State state) {
+		this.state = state;
 	}
 
 	@Override
-	public IDocument getDocument () {
-		return document;
+	public String getSubState () {
+		return subState;
 	}
 
 	@Override
-	public IUnit addUnit () {
-		IUnit item = new Unit(this);
-		list.add(item);
-		return item;
-	}
-
-	@Override
-	public IGroup addGroup () {
-		IGroup item = new Group(this);
-		list.add(item);
-		return item;
+	public void setSubState (String subState) {
+		this.subState = subState;
 	}
 
 }

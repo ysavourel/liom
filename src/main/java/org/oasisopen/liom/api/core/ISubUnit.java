@@ -39,4 +39,8 @@ public interface ISubUnit {
 	
 	public void setId (String id);
 
+	public ISource getSource ();
+	
+	public ITarget getTarget ();
+	
 }

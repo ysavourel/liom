@@ -16,61 +16,43 @@
 
 package net.sf.okapi.liom.v1.core;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.oasisopen.liom.api.core.ICollection;
-import org.oasisopen.liom.api.core.INCObjects;
-import org.oasisopen.liom.api.core.INote;
+import org.oasisopen.liom.api.core.IWithContext;
 import org.oasisopen.liom.api.core.IWithNCFields;
 import org.oasisopen.liom.api.core.IWithNCObjects;
 import org.oasisopen.liom.api.core.IWithNotes;
 
-public class ContextAndNotes extends Context implements IWithNotes, IWithNCObjects, IWithNCFields {
+class ImplData2<T> extends ImplData1
+implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<T> {
 
-	private BaseCollection<INote> notes;
-	private NCObjects ncObjs;
+	protected List<T> list = new ArrayList<>();
 	
 	@Override
-	public boolean hasNote () {
-		return (( notes != null ) && !notes.isEmpty() );
+	public boolean isEmpty () {
+		return list.isEmpty();
 	}
 
 	@Override
-	public ICollection<INote> getNotes () {
-		if ( notes == null ) notes = new BaseCollection<>();
-		return notes;
+	public int size () {
+		return list.size();
 	}
 
 	@Override
-	public INote addNote () {
-		getNotes();
-		INote note = new Note(this);
-		notes.add(note);
-		return note;
+	public boolean remove (T item) {
+		return list.remove(item);
 	}
 
 	@Override
-	public boolean hasNCObject (String type) {
-		if ( ncObjs != null ) {
-			return ncObjs.has(type);
-		}
-		return false;
+	public void clear () {
+		list.clear();
 	}
 
 	@Override
-	public INCObjects getNCObjects () {
-		if ( ncObjs == null ) {
-			ncObjs = new NCObjects();
-		}
-		return ncObjs;
-	}
-
-	@Override
-	public boolean hasNCField (String type) {
-		return false;
-	}
-
-	@Override
-	public <T> T getNCField (String type) {
-		return null;
+	public T get (int index) {
+		return list.get(index);
 	}
 
 }

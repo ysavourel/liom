@@ -14,32 +14,14 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package org.oasisopen.liom.api.core;
 
-import org.oasisopen.liom.api.core.IIgnorable;
-import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISubUnit;
-import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+public interface INCFields {
 
-public class Unit extends ImplData3<ISubUnit> implements IUnit {
-
-	public Unit (IWithGroupOrUnit parent) {
-		super(true, parent);
-	}
-
-	@Override
-	public ISegment addSegment () {
-		ISegment item = new Segment();
-		list.add(item);
-		return item;
-	}
-
-	@Override
-	public IIgnorable addIgnorable () {
-		IIgnorable item = new Ignorable();
-		list.add(item);
-		return item;
-	}
+	public boolean has (String name);
+	
+	public String get (String name);
+	
+	public void set (String name, String value);
 
 }

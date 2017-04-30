@@ -18,4 +18,8 @@ package org.oasisopen.liom.api.core;
 
 public interface IUnit extends IGroupOrUnit, ICollection<ISubUnit> {
 
+	public ISegment addSegment ();
+	
+	public IIgnorable addIgnorable ();
+	
 }

@@ -16,38 +16,32 @@
 
 package net.sf.okapi.liom.v1.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
-import org.oasisopen.liom.api.core.ICollection;
+import org.oasisopen.liom.api.core.INCFields;
 
-public class ContextAndNotesAndCollection<T> extends ContextAndNotes implements ICollection<T> {
+public class NCFields implements INCFields {
 
-	protected List<T> list = new ArrayList<>();
+	private Map<String, String> map;
 	
 	@Override
-	public boolean isEmpty () {
-		return list.isEmpty();
+	public boolean has (String name) {
+		return (( map != null ) && !map.isEmpty() );
 	}
 
 	@Override
-	public int size () {
-		return list.size();
+	public String get (String name) {
+		if ( map == null ) return null;
+		return map.get(name);
 	}
 
 	@Override
-	public boolean remove (T item) {
-		return list.remove(item);
-	}
-
-	@Override
-	public void clear () {
-		list.clear();
-	}
-
-	@Override
-	public T get (int index) {
-		return list.get(index);
+	public void set (String name,
+		String value)
+	{
+		if ( map == null ) map = new HashMap<>();
+		map.put(name, value);
 	}
 
 }
