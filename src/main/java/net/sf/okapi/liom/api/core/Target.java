@@ -14,45 +14,26 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.oasisopen.liom.api.core.ITarget;
 
-import org.oasisopen.liom.api.core.ICollection;
-import org.oasisopen.liom.api.core.IWithContext;
-import org.oasisopen.liom.api.core.IWithNCFields;
-import org.oasisopen.liom.api.core.IWithNCObjects;
-import org.oasisopen.liom.api.core.IWithNotes;
+public class Target extends Content implements ITarget {
 
-class ImplData2<T> extends ImplData1
-implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<T> {
-
-	protected List<T> list = new ArrayList<>();
+	private int order;
 	
-	@Override
-	public boolean isEmpty () {
-		return list.isEmpty();
+	public Target () {
+		super(true);
 	}
 
 	@Override
-	public int size () {
-		return list.size();
+	public int getOrder () {
+		return order;
 	}
 
 	@Override
-	public boolean remove (T item) {
-		return list.remove(item);
-	}
-
-	@Override
-	public void clear () {
-		list.clear();
-	}
-
-	@Override
-	public T get (int index) {
-		return list.get(index);
+	public void setOrder (int order) {
+		this.order = order;
 	}
 
 }

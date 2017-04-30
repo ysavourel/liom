@@ -14,26 +14,19 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.ITarget;
+import org.oasisopen.liom.api.core.IDocument;
 
-public class Target extends Content implements ITarget {
-
-	private int order;
+public enum Factory {
 	
-	public Target () {
-		super(true);
-	}
-
-	@Override
-	public int getOrder () {
-		return order;
-	}
-
-	@Override
-	public void setOrder (int order) {
-		this.order = order;
+	/**
+	 * The unique single instance of the factory. 
+	 */
+	SI;
+	
+	public IDocument createDocument () {
+		return new Document();
 	}
 
 }

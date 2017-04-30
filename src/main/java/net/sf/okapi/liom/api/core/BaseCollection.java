@@ -14,37 +14,45 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
-import org.oasisopen.liom.api.core.INCObjects;
+import org.oasisopen.liom.api.core.ICollection;
 
-public class NCObjects implements INCObjects {
+public class BaseCollection<T> implements ICollection<T> {
 
-	private Map<String, Object> map;
+	protected List<T> list = new ArrayList<>();
 	
 	@Override
-	public boolean has (String type) {
-		return (( map != null ) && !map.isEmpty() );
-	}
-
-	@SuppressWarnings("unchecked")
-	@Override
-	public <T> T get (String type) {
-		if ( map == null ) return null;
-		Object object = map.get(type);
-		if ( object != null ) return (T)object;
-		else return null;
+	public boolean isEmpty () {
+		return list.isEmpty();
 	}
 
 	@Override
-	public void set (String type,
-		Object object)
-	{
-		if ( map == null ) map = new HashMap<>();
-		map.put(type, object);
+	public int size () {
+		return list.size();
+	}
+
+	@Override
+	public boolean remove (T item) {
+		return list.remove(item);
+	}
+
+	@Override
+	public void clear () {
+		list.clear();
+	}
+
+	@Override
+	public T get (int index) {
+		return list.get(index);
+	}
+
+	// Helper
+	public void add (T item) {
+		list.add(item);
 	}
 
 }

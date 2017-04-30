@@ -14,7 +14,7 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.AppliesTo;
 import org.oasisopen.liom.api.core.INCFields;
@@ -23,13 +23,14 @@ import org.oasisopen.liom.api.core.IWithNotes;
 
 public class Note implements INote {
 
-	private IWithNotes parent;
-	private String text;
+	private transient IWithNotes parent;
+
 	private String id;
 	private AppliesTo appliesTo = AppliesTo.UNDEFINED;
 	private String category;
-	private int priority;
+	private int priority = 1;
 	private INCFields ncFlds;
+	private String text;
 	
 	public Note (IWithNotes parent) {
 		this.parent = parent;

@@ -14,16 +14,16 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.Directionality;
 import org.oasisopen.liom.api.core.IWithContext;
 
 public class Context implements IWithContext {
 
-	private boolean canReSegment;
-	private boolean translate;
-	private boolean preserveWS;
+	private boolean canReSegment = true;
+	private boolean translate = true;
+	private boolean preserveWS = false;
 	private Directionality srcDir;
 	private Directionality trgDir;
 	

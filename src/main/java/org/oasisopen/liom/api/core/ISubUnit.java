@@ -43,4 +43,8 @@ public interface ISubUnit {
 	
 	public ITarget getTarget ();
 	
+	public boolean hasTarget ();
+	
+	public ITarget getTarget (IfNoTarget createTarget);
+
 }

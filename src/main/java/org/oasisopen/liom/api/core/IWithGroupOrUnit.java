@@ -16,7 +16,7 @@
 
 package org.oasisopen.liom.api.core;
 
-public interface IWithGroupOrUnit extends ICollection<IGroupOrUnit>{
+public interface IWithGroupOrUnit extends ICollection<IGroupOrUnit> {
 
 	public IUnit addUnit ();
 

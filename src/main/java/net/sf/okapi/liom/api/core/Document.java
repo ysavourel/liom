@@ -14,14 +14,47 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.IIgnorable;
+import org.oasisopen.liom.api.core.IDocument;
+import org.oasisopen.liom.api.core.ISubDocument;
 
-public class Ignorable extends SubUnit implements IIgnorable {
+public class Document extends BaseCollection<ISubDocument> implements IDocument {
 
-	public Ignorable () {
-		super(false);
+	private String version = "1.0";
+	private String srcLang = "en";
+	private String trgLang;
+	
+	@Override
+	public String getVersion () {
+		return version;
+	}
+
+	@Override
+	public String getSrcLang () {
+		return srcLang;
+	}
+
+	@Override
+	public void setSrcLang (String srcLang) {
+		this.srcLang = srcLang;
+	}
+
+	@Override
+	public String getTrgLang () {
+		return trgLang;
+	}
+
+	@Override
+	public void setTrgLang (String trgLang) {
+		this.trgLang = trgLang;
+	}
+
+	@Override
+	public ISubDocument addSubDocument () {
+		ISubDocument sd = new SubDocument(this);
+		list.add(sd);
+		return sd;
 	}
 
 }

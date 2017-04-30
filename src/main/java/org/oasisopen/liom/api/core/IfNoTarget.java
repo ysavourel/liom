@@ -14,19 +14,20 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package org.oasisopen.liom.api.core;
 
-import org.oasisopen.liom.api.core.IDocument;
-
-public enum Factory {
-	
+public enum IfNoTarget {
 	/**
-	 * The unique single instance of the factory. 
+	 * Indicates to not create a target if a target does not exists yet: the target remains null.
 	 */
-	SI;
-	
-	IDocument createDocument () {
-		return new Document();
-	}
-
+	DONT_CREATE,
+	/**
+	 * Indicates to create an empty target if a target does not exist yet.
+	 */
+	CREATE_EMPTY,
+	/**
+	 * Indicates to clone the source in the target if a target does not exist yet.
+	 */
+	CLONE_SOURCE
 }
+

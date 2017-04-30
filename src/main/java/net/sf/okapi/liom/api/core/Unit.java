@@ -14,45 +14,32 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.oasisopen.liom.api.core.IIgnorable;
+import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.ISubUnit;
+import org.oasisopen.liom.api.core.IUnit;
+import org.oasisopen.liom.api.core.IWithGroupOrUnit;
 
-import org.oasisopen.liom.api.core.ICollection;
+public class Unit extends ImplData3<ISubUnit> implements IUnit {
 
-public class BaseCollection<T> implements ICollection<T> {
-
-	protected List<T> list = new ArrayList<>();
-	
-	@Override
-	public boolean isEmpty () {
-		return list.isEmpty();
+	public Unit (IWithGroupOrUnit parent) {
+		super(true, parent);
 	}
 
 	@Override
-	public int size () {
-		return list.size();
-	}
-
-	@Override
-	public boolean remove (T item) {
-		return list.remove(item);
-	}
-
-	@Override
-	public void clear () {
-		list.clear();
-	}
-
-	@Override
-	public T get (int index) {
-		return list.get(index);
-	}
-
-	// Helper
-	public void add (T item) {
+	public ISegment addSegment () {
+		ISegment item = new Segment();
 		list.add(item);
+		return item;
+	}
+
+	@Override
+	public IIgnorable addIgnorable () {
+		IIgnorable item = new Ignorable();
+		list.add(item);
+		return item;
 	}
 
 }

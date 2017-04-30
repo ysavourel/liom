@@ -14,10 +14,14 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.glossary;
+package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.glossary.IGlossary;
+import org.oasisopen.liom.api.core.IIgnorable;
 
-public class Glossary implements IGlossary {
+public class Ignorable extends SubUnit implements IIgnorable {
+
+	public Ignorable () {
+		super(false);
+	}
 
 }

@@ -34,6 +34,8 @@ import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
 import org.oasisopen.liom.api.core.IWithNotes;
 
+import net.sf.okapi.liom.api.core.Factory;
+
 public class DocumentTests {
 
 	@Test

@@ -14,61 +14,77 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.IIgnorable;
-import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISource;
-import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.ITarget;
 
-public class SubUnit implements ISubUnit {
+public class Content implements IContent {
 
-	final private boolean isSegment;
+	final private boolean isSource;
 	
-	private String id;
-	private ISource source = new Source();
-	private ITarget target;
-	
-	public SubUnit (boolean isSegment) {
-		this.isSegment = isSegment;
+	private String lang;
+	private boolean preserveWS;
+	private StringBuilder ctext = new StringBuilder();
+
+	public Content (boolean isSource) {
+		this.isSource = isSource;
 	}
 	
 	@Override
-	public boolean isSegment () {
-		return isSegment;
+	public boolean isSource () {
+		return isSource;
 	}
 
 	@Override
-	public ISegment asSegment () {
-		if ( isSegment ) return (ISegment)this;
+	public ISource asSource () {
+		if ( isSource ) return (ISource)this;
 		else return null;
 	}
 
 	@Override
-	public IIgnorable asIgnorable () {
-		if ( !isSegment ) return (IIgnorable)this;
+	public ITarget asTarget () {
+		if ( !isSource ) return (ITarget)this;
 		else return null;
 	}
 
 	@Override
-	public String getId () {
-		return id;
+	public String getLang () {
+		return lang;
 	}
 
 	@Override
-	public void setId (String id) {
-		this.id = id;
+	public IContent setLang (String lang) {
+		this.lang = lang;
+		return this;
 	}
 
 	@Override
-	public ISource getSource () {
-		return source;
+	public boolean getPreserveWS () {
+		return preserveWS;
 	}
 
 	@Override
-	public ITarget getTarget () {
-		return target;
+	public IContent setPreserveWS (boolean preserveWS) {
+		this.preserveWS = preserveWS;
+		return this;
+	}
+
+	public String toString () {
+		return ctext.toString();
+	}
+
+	@Override
+	public IContent append (String plainText) {
+		ctext.append(plainText);
+		return this;
+	}
+
+	@Override
+	public IContent append (char ch) {
+		ctext.append(ch);
+		return this;
 	}
 
 }

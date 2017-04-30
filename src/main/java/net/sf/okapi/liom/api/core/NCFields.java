@@ -14,47 +14,34 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.IDocument;
-import org.oasisopen.liom.api.core.ISubDocument;
+import java.util.HashMap;
+import java.util.Map;
 
-public class Document extends BaseCollection<ISubDocument> implements IDocument {
+import org.oasisopen.liom.api.core.INCFields;
 
-	private String version = "2.1";
-	private String srcLang = "en";
-	private String trgLang;
+public class NCFields implements INCFields {
+
+	private Map<String, String> map;
 	
 	@Override
-	public String getVersion () {
-		return version;
+	public boolean has (String name) {
+		return (( map != null ) && !map.isEmpty() );
 	}
 
 	@Override
-	public String getSrcLang () {
-		return srcLang;
+	public String get (String name) {
+		if ( map == null ) return null;
+		return map.get(name);
 	}
 
 	@Override
-	public void setSrcLang (String srcLang) {
-		this.srcLang = srcLang;
-	}
-
-	@Override
-	public String getTrgLang () {
-		return trgLang;
-	}
-
-	@Override
-	public void setTrgLang (String trgLang) {
-		this.trgLang = trgLang;
-	}
-
-	@Override
-	public ISubDocument addSubDocument () {
-		ISubDocument sd = new SubDocument(this);
-		list.add(sd);
-		return sd;
+	public void set (String name,
+		String value)
+	{
+		if ( map == null ) map = new HashMap<>();
+		map.put(name, value);
 	}
 
 }

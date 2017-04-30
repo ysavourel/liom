@@ -14,7 +14,7 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.ICollection;
 import org.oasisopen.liom.api.core.IGroup;
@@ -29,8 +29,9 @@ import org.oasisopen.liom.api.core.IWithNotes;
 class ImplData3<T> extends ImplData2<T> 
 implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<T>, IGroupOrUnit {
 
+	final private transient IWithGroupOrUnit parent;
+
 	final private boolean isUnit;
-	final private IWithGroupOrUnit parent;
 	
 	private String id;
 	private String name;

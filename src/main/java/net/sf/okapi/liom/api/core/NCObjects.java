@@ -14,34 +14,37 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.oasisopen.liom.api.core.INCFields;
+import org.oasisopen.liom.api.core.INCObjects;
 
-public class NCFields implements INCFields {
+public class NCObjects implements INCObjects {
 
-	private Map<String, String> map;
+	private Map<String, Object> map;
 	
 	@Override
-	public boolean has (String name) {
+	public boolean has (String type) {
 		return (( map != null ) && !map.isEmpty() );
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
-	public String get (String name) {
+	public <T> T get (String type) {
 		if ( map == null ) return null;
-		return map.get(name);
+		Object object = map.get(type);
+		if ( object != null ) return (T)object;
+		else return null;
 	}
 
 	@Override
-	public void set (String name,
-		String value)
+	public void set (String type,
+		Object object)
 	{
 		if ( map == null ) map = new HashMap<>();
-		map.put(name, value);
+		map.put(type, object);
 	}
 
 }
