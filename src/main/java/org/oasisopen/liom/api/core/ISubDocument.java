@@ -30,6 +30,10 @@ public interface ISubDocument extends IWithContext, IWithNCObjects, IWithNCField
 	
 	public void setOriginal (String original);
 
+	public ISkeleton getSkeleton ();
+	
+	public ISkeleton newSkeleton ();
+	
 	public IDocument getDocument ();
 	
 }

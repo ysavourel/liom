@@ -23,13 +23,25 @@ public enum AppliesTo {
 	/**
 	 * The note does not applies to a specific type of object.
 	 */
-	UNDEFINED,
+	UNDEFINED(""),
 	/**
 	 * The note applies to the source.
 	 */
-	SOURCE,
+	SOURCE("source"),
 	/**
 	 * the note applies to the target.
 	 */
-	TARGET
+	TARGET("target");
+
+	private String name;
+
+	private AppliesTo (String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString () {
+		return name;
+	}
+	
 }

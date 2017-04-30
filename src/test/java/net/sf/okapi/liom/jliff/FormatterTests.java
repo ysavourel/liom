@@ -31,6 +31,7 @@ import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
 
 import net.sf.okapi.liom.api.core.Factory;
+import net.sf.okapi.liom.api.core.Skeleton;
 
 public class FormatterTests {
 
@@ -97,6 +98,7 @@ public class FormatterTests {
 		ISubDocument sd = doc.addSubDocument();
 		sd.setId("f1");
 		sd.setOriginal("Graphic Example.psd");
+		sd.newSkeleton().setRef("Graphic Example.psd.skl");
 		
 		IUnit unit = sd.addUnit();
 		unit.setId("1");

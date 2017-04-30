@@ -16,24 +16,33 @@
 
 package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.ITarget;
+import org.oasisopen.liom.api.core.ISkeleton;
 
-public class Target extends Content implements ITarget {
+public class Skeleton implements ISkeleton {
 
-	private int order;
+	private String href;
+	private String text;
 	
-	public Target () {
-		super(false);
+	@Override
+	public String getRef () {
+		return href;
 	}
 
 	@Override
-	public int getOrder () {
-		return order;
+	public ISkeleton setRef (String href) {
+		this.href = href;
+		return this;
 	}
 
 	@Override
-	public void setOrder (int order) {
-		this.order = order;
+	public String getText () {
+		return text;
+	}
+
+	@Override
+	public ISkeleton setText (String text) {
+		this.text = text;
+		return this;
 	}
 
 }

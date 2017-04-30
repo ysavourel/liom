@@ -16,7 +16,7 @@
 
 package org.oasisopen.liom.api.core;
 
-public interface IContent {
+public interface IContent extends Iterable<Object> {
 
 	public boolean isSource ();
 	

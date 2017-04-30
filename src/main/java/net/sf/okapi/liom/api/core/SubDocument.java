@@ -19,6 +19,7 @@ package net.sf.okapi.liom.api.core;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
+import org.oasisopen.liom.api.core.ISkeleton;
 import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
 
@@ -28,6 +29,7 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	
 	private String id;
 	private String original;
+	private ISkeleton skeleton;
 	
 	public SubDocument (IDocument document) {
 		this.document = document;
@@ -70,6 +72,17 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 		IGroup item = new Group(this);
 		list.add(item);
 		return item;
+	}
+
+	@Override
+	public ISkeleton getSkeleton () {
+		return skeleton;
+	}
+
+	@Override
+	public ISkeleton newSkeleton () {
+		skeleton = new Skeleton();
+		return skeleton;
 	}
 
 }

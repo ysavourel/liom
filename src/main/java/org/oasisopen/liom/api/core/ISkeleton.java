@@ -14,26 +14,16 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.api.core;
+package org.oasisopen.liom.api.core;
 
-import org.oasisopen.liom.api.core.ITarget;
+public interface ISkeleton {
 
-public class Target extends Content implements ITarget {
-
-	private int order;
+	public String getRef ();
 	
-	public Target () {
-		super(false);
-	}
-
-	@Override
-	public int getOrder () {
-		return order;
-	}
-
-	@Override
-	public void setOrder (int order) {
-		this.order = order;
-	}
+	public ISkeleton setRef (String ref);
+	
+	public String getText ();
+	
+	public ISkeleton setText (String text);
 
 }

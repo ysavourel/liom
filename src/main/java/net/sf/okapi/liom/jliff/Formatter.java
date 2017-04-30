@@ -23,6 +23,7 @@ import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
 import org.oasisopen.liom.api.core.INote;
 import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.ISkeleton;
 import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
@@ -78,9 +79,24 @@ public class Formatter {
 		toJLIFF((IWithContext)sd, sb);
 		sb.append(",");
 		toJLIFF((IWithNotes)sd, sb);
+		toJLIFF(sd.getSkeleton(), sb);
 		sb.append(",");
 		toJLIFF((IWithGroupOrUnit)sd, sb);
 		return sb.toString();
+	}
+	
+	void toJLIFF (ISkeleton skeleton,
+		StringBuilder sb)
+	{
+		if ( skeleton == null ) return;
+		sb.append(",\"skeleton\":{");
+		if ( skeleton.getRef() != null ) {
+			sb.append("\"ref\":"+gson.toJson(skeleton.getRef()));
+		}
+		else if ( skeleton.getText() != null ) {
+			sb.append("\"text\":"+gson.toJson(skeleton.getText()));
+		}
+		sb.append("}");
 	}
 	
 	void toJLIFF (IWithContext item,
@@ -148,7 +164,7 @@ public class Formatter {
 	private void unitToJLIFF (IUnit unit,
 		StringBuilder sb)
 	{
-		sb.append(",\"subUnits\":[");
+		sb.append(",\"subunits\":[");
 		for ( int i=0; i<unit.size(); i++ ) {
 			if ( i>0 ) sb.append(",");
 			toJLIFF(unit.get(i), sb);
@@ -165,7 +181,7 @@ public class Formatter {
 		if ( su.isSegment() ) {
 			ISegment seg = su.asSegment();
 			sb.append(",\"canResegment\":"+gson.toJson(seg.getCanReSegment()));
-			sb.append(",\"state\":"+gson.toJson(seg.getState()));
+			sb.append(",\"state\":"+gson.toJson(seg.getState().toString()));
 			sb.append(",\"subState\":"+gson.toJson(seg.getSubState()));
 		}
 		toJLIFF(su.getSource(), sb);
@@ -183,8 +199,17 @@ public class Formatter {
 		if ( !content.isSource() ) {
 			sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
 		}
-		
-		sb.append(",\"text\":"+gson.toJson(content.toString()));
+
+		sb.append(",\"cnt\":[");
+		boolean first = true;
+		for ( Object obj : content ) {
+			if ( obj instanceof String ) {
+				if ( first ) first = false;
+				else sb.append(",");
+				sb.append("{\"text\":"+gson.toJson(content.toString())+"}");
+			}
+		}
+		sb.append("]");
 		
 		sb.append("}");
 	}

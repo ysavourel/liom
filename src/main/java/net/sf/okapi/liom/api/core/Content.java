@@ -16,6 +16,9 @@
 
 package net.sf.okapi.liom.api.core;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ITarget;
@@ -85,6 +88,25 @@ public class Content implements IContent {
 	public IContent append (char ch) {
 		ctext.append(ch);
 		return this;
+	}
+
+	@Override
+	public Iterator<Object> iterator () {
+		//Temporary 
+		Iterator<Object> iter = new Iterator<Object>() {
+			private int count = 0;
+			private String text = ctext.toString();
+			@Override
+			public Object next () {
+				if ( count == 1 ) return text;
+				return null;
+			}
+			@Override
+			public boolean hasNext () {
+				return ((++count)==1); 
+			}
+		};
+		return iter;
 	}
 
 }

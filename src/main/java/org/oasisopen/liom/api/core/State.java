@@ -17,7 +17,7 @@
 package org.oasisopen.liom.api.core;
 
 /**
- * Possible values for the <code>state</code> attribute of a target content:
+ * Possible values for the <code>state</code> field of a target content:
  * {@link #INITIAL}, {@link #TRANSLATED}, {@link #REVIEWED} and {@link #FINAL}.
  */
 public enum State {
