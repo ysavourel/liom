@@ -14,7 +14,7 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;

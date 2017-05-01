@@ -16,14 +16,13 @@
 
 package net.sf.okapi.liom.api.core;
 
-import java.security.InvalidParameterException;
-
 import org.oasisopen.liom.api.core.CanReorder;
 import org.oasisopen.liom.api.core.Directionality;
 import org.oasisopen.liom.api.core.ICTag;
 import org.oasisopen.liom.api.core.IMTag;
 import org.oasisopen.liom.api.core.TagType;
 
+import net.sf.okapi.liom.api.InvalidParameterException;
 import net.sf.okapi.liom.api.Utils;
 
 /**
@@ -88,7 +87,7 @@ public class CTag extends Tag implements ICTag {
 	 * Copy constructor.
 	 * @param original the original object to copy.
 	 * @param opposite the opening/closing tag to connect with this new tag.
-	 * this parameter must be created already. 
+	 * This parameter must be created already. 
 	 */
 	CTag (CTag original,
 		CTag opposite)
@@ -104,6 +103,7 @@ public class CTag extends Tag implements ICTag {
 		this.disp = original.disp;
 		this.equiv = original.equiv;
 		this.subFlows = original.subFlows;
+		this.tagType = original.tagType;
 	}
 	
 	@Override
@@ -398,14 +398,14 @@ public class CTag extends Tag implements ICTag {
 		this.subFlows = value;
 	}
 
-//	/**
-//	 * Gets an array of the IDs of the units representing the sub-flows for this code's tag.
-//	 * @return an array of IDs (can be empty but is never null).
-//	 */
-//	public String[] getSubFlowsIds () {
-//		if ( subFlows == null ) return new String[0];
-//		return subFlows.split(" ", -1);
-//	}
+	/**
+	 * Gets an array of the IDs of the units representing the sub-flows for this code's tag.
+	 * @return an array of IDs (can be empty but is never null).
+	 */
+	public String[] getSubFlowsIds () {
+		if ( subFlows == null ) return new String[0];
+		return subFlows.split(" ", -1);
+	}
 	
 	/**
 	 * Gets the directionality of the content of this code.

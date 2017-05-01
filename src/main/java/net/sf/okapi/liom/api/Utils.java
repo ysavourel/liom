@@ -16,8 +16,6 @@
 
 package net.sf.okapi.liom.api;
 
-import java.security.InvalidParameterException;
-
 /**
  * Provides various helper methods for the library.
  */

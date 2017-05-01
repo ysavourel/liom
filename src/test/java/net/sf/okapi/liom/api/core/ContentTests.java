@@ -14,52 +14,36 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import org.junit.Test;
-import org.oasisopen.liom.api.core.Directionality;
+import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISegment;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IfNoTarget;
 
 import net.sf.okapi.liom.api.core.Unit;
 
-public class UnitTests {
+public class ContentTests {
 
 	@Test
 	public void testSimple () {
 		IUnit unit = new Unit(null);
-		assertTrue(unit.isSourceEmpty());
-		assertTrue(unit.isTargetEmpty());
-		
-		unit.setId("id");
-		assertEquals("id", unit.getId());
-		unit.setName("name");
-		assertEquals("name", unit.getName());
+		ISegment seg1 = unit.addSegment();
+		IContent src1 = seg1.getSource();
+		src1.append("text1");
+		assertTrue(seg1==src1.getParent());
+		assertEquals("text1", src1.toString());
 
-		// Defaults
-		assertTrue(unit.getCanResegment());
-		assertFalse(unit.getPreserveWS());
-		assertTrue(unit.getTranslate());
-		assertEquals(Directionality.INHERITED, unit.getSrcDir());
-		assertEquals(Directionality.INHERITED, unit.getTrgDir());
-		
-		ISegment seg = unit.addSegment();
-		seg.getSource().append("");
-		assertTrue(unit.isSourceEmpty());
-		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("");
-		assertTrue(unit.isTargetEmpty());
-		
-		seg = unit.addSegment();
-		seg.getSource().append("B");
-		assertFalse(unit.isSourceEmpty());
-		assertTrue(unit.isTargetEmpty());
-		seg.getTarget(IfNoTarget.CLONE_SOURCE);
-		assertFalse(unit.isTargetEmpty());
+		ISegment seg2 = unit.addSegment();
+		IContent src2 = seg2.getSource();
+		src2.append("text2");
+		IContent trg2 = seg2.getTarget(IfNoTarget.CLONE_SOURCE);
+		assertTrue(seg2==trg2.getParent());
+		assertEquals("text2", src2.toString());
+		assertEquals("text2", trg2.toString());
 	}
 
 }

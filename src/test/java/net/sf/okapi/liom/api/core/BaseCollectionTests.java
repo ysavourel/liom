@@ -14,36 +14,46 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.v1.core;
+package net.sf.okapi.liom.api.core;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
-import org.oasisopen.liom.api.core.IContent;
-import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IfNoTarget;
 
-import net.sf.okapi.liom.api.core.Unit;
+import net.sf.okapi.liom.api.core.BaseCollection;
 
-public class ContentTests {
+public class BaseCollectionTests {
 
 	@Test
-	public void testSimple () {
-		IUnit unit = new Unit(null);
-		ISegment seg1 = unit.addSegment();
-		IContent src1 = seg1.getSource();
-		src1.append("text1");
-		assertTrue(seg1==src1.getParent());
-		assertEquals("text1", src1.toString());
-
-		ISegment seg2 = unit.addSegment();
-		IContent src2 = seg2.getSource();
-		src2.append("text2");
-		IContent trg2 = seg2.getTarget(IfNoTarget.CLONE_SOURCE);
-		assertTrue(seg2==trg2.getParent());
-		assertEquals("text2", src2.toString());
-		assertEquals("text2", trg2.toString());
+	public void testMethods () {
+		BaseCollection<String> bc = new BaseCollection<>();
+		
+		// Test initial collection
+		assertTrue(bc.isEmpty());
+		assertEquals(0, bc.size());
+		
+		// Add an item
+		bc.add("item1");
+		assertFalse(bc.isEmpty());
+		assertEquals(1, bc.size());
+		
+		// Access
+		String item1 = bc.get(0);
+		assertEquals("item1", item1);
+		
+		// Deletion
+		bc.remove(item1);
+		assertTrue(bc.isEmpty());
+		
+		// Clear
+		bc.add("itemA");
+		bc.add("itemB");
+		assertEquals(2, bc.size());
+		bc.clear();
+		assertEquals(0, bc.size());
+		assertTrue(bc.isEmpty());
 	}
 
 }

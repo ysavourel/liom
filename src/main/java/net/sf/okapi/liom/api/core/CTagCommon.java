@@ -16,10 +16,9 @@
 
 package net.sf.okapi.liom.api.core;
 
-import java.security.InvalidParameterException;
-
 import org.oasisopen.liom.api.core.Directionality;
 
+import net.sf.okapi.liom.api.InvalidParameterException;
 import net.sf.okapi.liom.api.Utils;
 
 /**

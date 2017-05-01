@@ -16,8 +16,7 @@
 
 package net.sf.okapi.liom.api.core;
 
-import java.security.InvalidParameterException;
-
+import net.sf.okapi.liom.api.InvalidParameterException;
 import net.sf.okapi.liom.api.Utils;
 
 /**

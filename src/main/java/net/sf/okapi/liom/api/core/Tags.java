@@ -16,12 +16,13 @@
 
 package net.sf.okapi.liom.api.core;
 
-import java.security.InvalidParameterException;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import org.oasisopen.liom.api.core.TagType;
+
+import net.sf.okapi.liom.api.InvalidParameterException;
 
 /**
  * Represents a collection of tags for a specific content.
@@ -301,7 +302,7 @@ public class Tags implements Iterable<Tag> {
 		lastValues.put(mtype, ++value);
 		int key = Content.toKey(mtype, Content.TAGREF_BASE+value);
 		if ( tags.containsKey(key) ) {
-			throw new RuntimeException("The key auto-selected to add this tag exists already.");
+			throw new InvalidParameterException("The key auto-selected to add this tag exists already.");
 		}
 		tags.put(key, tag);
 		return key;
