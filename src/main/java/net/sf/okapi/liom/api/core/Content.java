@@ -16,7 +16,6 @@
 
 package net.sf.okapi.liom.api.core;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 import org.oasisopen.liom.api.core.IContent;
@@ -27,9 +26,9 @@ public class Content implements IContent {
 
 	final private boolean isSource;
 	
-	private String lang;
-	private boolean preserveWS;
-	private StringBuilder ctext = new StringBuilder();
+	protected String lang;
+	protected boolean preserveWS;
+	protected StringBuilder ctext = new StringBuilder();
 
 	public Content (boolean isSource) {
 		this.isSource = isSource;
@@ -107,6 +106,17 @@ public class Content implements IContent {
 			}
 		};
 		return iter;
+	}
+
+	@Override
+	public boolean isEmpty () {
+		return (ctext.length()==0);
+	}
+
+	@Override
+	public IContent delete (int start, int end) {
+		ctext.delete(start, end);
+		return this;
 	}
 
 }

@@ -24,6 +24,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.oasisopen.liom.api.core.AppliesTo;
 import org.oasisopen.liom.api.core.IfNoTarget;
+import org.oasisopen.liom.api.core.State;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.ISegment;
@@ -50,6 +51,15 @@ public class FormatterTests {
 		Formatter fmt = new Formatter();
 		fmt.process(createDocument2());
 		System.out.println("===== Document 2 =====");
+		System.out.println(fmt.makePretty(fmt.getOutput()));
+		System.out.println("==========");
+	}
+	
+	@Test
+	public void testDocument3 () {
+		Formatter fmt = new Formatter();
+		fmt.process(createDocument3());
+		System.out.println("===== Document 3 =====");
 		System.out.println(fmt.makePretty(fmt.getOutput()));
 		System.out.println("==========");
 	}
@@ -117,6 +127,24 @@ public class FormatterTests {
 		seg = unit.addSegment();
 		seg.getSource().append("XLIFF Data Manager");
 		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("XLIFF \u30c7\u30fc\u30bf\u30fb\u30de\u30cd\u30fc\u30b8\u30e3");
+		return doc;
+	}
+	
+	private IDocument createDocument3 () {
+		IDocument doc = Factory.SI.createDocument();
+		doc.setSrcLang("en");
+		doc.setSrcLang("fr");
+		ISubDocument sd = doc.addSubDocument();
+		sd.setId("f1");
+		
+		IUnit unit = sd.addUnit();
+		unit.setId("u1");
+		ISegment seg = unit.addSegment();
+		seg.setCanResegment(false);
+		seg.setState(State.TRANSLATED);
+		seg.getSource().append("text");
+		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("TEXT");
+
 		return doc;
 	}
 	

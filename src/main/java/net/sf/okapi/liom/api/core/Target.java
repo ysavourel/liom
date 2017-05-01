@@ -22,8 +22,20 @@ public class Target extends Content implements ITarget {
 
 	private int order;
 	
+	/**
+	 * Creates a new {@link Target} object.
+	 */
 	public Target () {
 		super(false);
+	}
+	
+	/**
+	 * Creates a new {@link Target} object and copy a given content in it.
+	 * @param from the object to copy the content from.
+	 */
+	public Target (Content from) {
+		super(false);
+		this.ctext = new StringBuilder(from.ctext);
 	}
 
 	@Override

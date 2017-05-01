@@ -21,5 +21,9 @@ public interface IUnit extends IGroupOrUnit, ICollection<ISubUnit> {
 	public ISegment addSegment ();
 	
 	public IIgnorable addIgnorable ();
+
+	public boolean isSourceEmpty ();
 	
+	public boolean isTargetEmpty ();
+
 }

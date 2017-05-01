@@ -42,4 +42,20 @@ public class Unit extends ImplData3<ISubUnit> implements IUnit {
 		return item;
 	}
 
+	@Override
+	public boolean isSourceEmpty () {
+		for ( int i=0; i<size(); i++ ) {
+			if ( !get(i).isSourceEmpty() ) return false;
+		}
+		return true;
+	}
+
+	@Override
+	public boolean isTargetEmpty () {
+		for ( int i=0; i<size(); i++ ) {
+			if ( !get(i).isTargetEmpty() ) return false;
+		}
+		return true;
+	}
+
 }

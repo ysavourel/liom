@@ -20,6 +20,9 @@ import org.oasisopen.liom.api.core.ISource;
 
 public class Source extends Content implements ISource {
 
+	/**
+	 * Creates a new {@link Source} object.
+	 */
 	public Source () {
 		super(true);
 	}

@@ -32,8 +32,29 @@ public interface IContent extends Iterable<Object> {
 	
 	public IContent setPreserveWS (boolean preserveWS);
 
+	/**
+	 * Adds a string of plain text at the end of this content.
+	 * @param plainText the plain text to append.
+	 * @return the content itself.
+	 */
 	public IContent append (String plainText);
 
+	/**
+	 * Adds a character at the end of this content.
+	 * @param ch the character to append.
+	 * @return the content itself.
+	 */
 	public IContent append (char ch);
+
+	public boolean isEmpty ();
+	
+	/**
+	 * Deletes a section of this content.
+	 * @param start the start index (inclusive)
+	 * @param end the end index (exclusive)
+	 * @return the content itself.
+	 */
+	public IContent delete (int start,
+		int end);
 
 }

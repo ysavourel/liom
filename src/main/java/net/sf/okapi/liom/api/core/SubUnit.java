@@ -78,21 +78,31 @@ public class SubUnit implements ISubUnit {
 	}
 
 	@Override
-	public ITarget getTarget (IfNoTarget createTarget) {
+	public ITarget getTarget (IfNoTarget ifNoTarget) {
 		if ( target == null ) {
-			switch ( createTarget ) {
+			switch ( ifNoTarget ) {
 			case CLONE_SOURCE:
-				//TODO
+				target = new Target((Content)source);
 				break;
 			case CREATE_EMPTY:
 				target = new Target();
 				break;
 			case DONT_CREATE:
-				// Do not create
+				// Do not create: leave it null
 				break;
 			}
 		}
 		return target;
+	}
+
+	@Override
+	public boolean isSourceEmpty () {
+		return source.isEmpty();
+	}
+
+	@Override
+	public boolean isTargetEmpty () {
+		return (( target == null ) || target.isEmpty() );
 	}
 
 }

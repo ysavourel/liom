@@ -75,17 +75,15 @@ public class Formatter {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\"id\":"+gson.toJson(sd.getId()));
 		sb.append(",\"original\":"+gson.toJson(sd.getOriginal()));
-		sb.append(",");
-		toJLIFF((IWithContext)sd, sb);
-		sb.append(",");
-		toJLIFF((IWithNotes)sd, sb);
-		toJLIFF(sd.getSkeleton(), sb);
+		withContextToJLIFF((IWithContext)sd, sb, true);
+		withNotesToJLIFF((IWithNotes)sd, sb, true);
+		skeletonToJLIFF(sd.getSkeleton(), sb);
 		sb.append(",");
 		toJLIFF((IWithGroupOrUnit)sd, sb);
 		return sb.toString();
 	}
 	
-	void toJLIFF (ISkeleton skeleton,
+	void skeletonToJLIFF (ISkeleton skeleton,
 		StringBuilder sb)
 	{
 		if ( skeleton == null ) return;
@@ -99,9 +97,13 @@ public class Formatter {
 		sb.append("}");
 	}
 	
-	void toJLIFF (IWithContext item,
-		StringBuilder sb)
+	void withContextToJLIFF (IWithContext item,
+		StringBuilder sb,
+		boolean leadComma)
 	{
+		if ( leadComma ) {
+			sb.append(",");
+		}
 		sb.append("\"translate\":"+gson.toJson(item.getTranslate()));
 		sb.append(",\"canResegment\":"+gson.toJson(item.getCanResegment()));
 		sb.append(",\"preserveWS\":"+gson.toJson(item.getPreserveWS()));
@@ -109,9 +111,14 @@ public class Formatter {
 		sb.append(",\"trgDir\":"+gson.toJson(item.getTrgDir()));
 	}
 
-	void toJLIFF (IWithNotes item,
-		StringBuilder sb)
+	void withNotesToJLIFF (IWithNotes item,
+		StringBuilder sb,
+		boolean leadComma)
 	{
+		if ( !item.hasNote() ) return;
+		if ( leadComma ) {
+			sb.append(",");
+		}
 		sb.append("\"notes\":[");
 		if ( item.hasNote() ) {
 			ICollection<INote> col =  item.getNotes();
@@ -141,10 +148,8 @@ public class Formatter {
 	{
 		sb.append("{");
 		sb.append("\"isUnit\":"+gson.toJson(item.isUnit()));
-		sb.append(",");
-		toJLIFF((IWithContext)item, sb);
-		sb.append(",");
-		toJLIFF((IWithNotes)item, sb);
+		withContextToJLIFF((IWithContext)item, sb, true);
+		withNotesToJLIFF((IWithNotes)item, sb, true);
 		if ( item.isUnit() ) {
 			unitToJLIFF(item.asUnit(), sb);
 		}
@@ -197,7 +202,9 @@ public class Formatter {
 		sb.append("\"lang\":"+gson.toJson(content.getLang()));
 		sb.append(",\"preserveWS\":"+gson.toJson(content.getPreserveWS()));
 		if ( !content.isSource() ) {
-			sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
+			if ( content.asTarget().getOrder() > 0 ) {
+				sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
+			}
 		}
 
 		sb.append(",\"cnt\":[");

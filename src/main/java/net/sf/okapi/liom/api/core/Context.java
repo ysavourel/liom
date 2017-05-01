@@ -24,8 +24,8 @@ public class Context implements IWithContext {
 	private boolean canReSegment = true;
 	private boolean translate = true;
 	private boolean preserveWS = false;
-	private Directionality srcDir;
-	private Directionality trgDir;
+	private Directionality srcDir = Directionality.INHERITED; // ???
+	private Directionality trgDir = Directionality.INHERITED; // ??? not sure what the default should be
 	
 	@Override
 	public boolean getCanResegment () {
