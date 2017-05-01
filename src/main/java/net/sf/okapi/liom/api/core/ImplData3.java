@@ -32,7 +32,7 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<
 	final private transient IWithGroupOrUnit parent;
 
 	final private boolean isUnit;
-	
+
 	private String id;
 	private String name;
 	private String type;
@@ -91,6 +91,7 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<
 		this.type = type;
 	}
 
+	@SuppressWarnings({ "unchecked", "hiding" })
 	@Override
 	public <T> T getParent () {
 		return (T)parent;

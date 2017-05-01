@@ -31,8 +31,11 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	private String original;
 	private ISkeleton skeleton;
 	
-	public SubDocument (IDocument document) {
+	public SubDocument (IDocument document,
+		String id)
+	{
 		this.document = document;
+		setId(id);
 	}
 
 	@Override
@@ -85,6 +88,7 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 		return skeleton;
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public <T> T getParent () {
 		return (T)document;

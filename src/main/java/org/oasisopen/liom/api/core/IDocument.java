@@ -32,6 +32,8 @@ public interface IDocument extends ICollection<ISubDocument> {
 	
 	public void setTrgLang (String trgLang);
 
-	public ISubDocument addSubDocument ();
+	public ISubDocument addSubDocument (String id);
+
+	public ISubDocument find (String id);
 
 }

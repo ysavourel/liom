@@ -51,10 +51,18 @@ public class Document extends BaseCollection<ISubDocument> implements IDocument 
 	}
 
 	@Override
-	public ISubDocument addSubDocument () {
-		ISubDocument sd = new SubDocument(this);
+	public ISubDocument addSubDocument (String id) {
+		ISubDocument sd = new SubDocument(this, id);
 		list.add(sd);
 		return sd;
+	}
+
+	@Override
+	public ISubDocument find (String id) {
+		for ( int i=0; i<size(); i++ ) {
+			if ( id.equals(get(i).getId()) ) return get(i);
+		}
+		return null;
 	}
 
 }

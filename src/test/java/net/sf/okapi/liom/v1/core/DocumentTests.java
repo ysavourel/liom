@@ -18,6 +18,7 @@ package net.sf.okapi.liom.v1.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
@@ -39,6 +40,43 @@ import net.sf.okapi.liom.api.core.Factory;
 public class DocumentTests {
 
 	@Test
+	public void testVersion () {
+		IDocument doc = Factory.SI.createDocument();
+		assertEquals("1.0", doc.getVersion()); // Default
+	}
+	
+	@Test
+	public void testSrcLang () {
+		IDocument doc = Factory.SI.createDocument();
+		assertEquals("en", doc.getSrcLang()); // Default
+		doc.setSrcLang("zh");
+		assertEquals("zh", doc.getSrcLang());
+	}
+	
+	@Test
+	public void testTrgLang () {
+		IDocument doc = Factory.SI.createDocument();
+		assertEquals(null, doc.getTrgLang()); // Default
+		doc.setTrgLang("fr");
+		assertEquals("fr", doc.getTrgLang());
+	}
+	
+	@Test
+	public void testSubDocument () {
+		IDocument doc = Factory.SI.createDocument();
+		// Add
+		ISubDocument sd1 = doc.addSubDocument("sd1");
+		assertNotNull(sd1);
+		// Access
+		ISubDocument sd2 = doc.get(0);
+		assertTrue(sd1==sd2);
+		// Find
+		doc.addSubDocument("lastSD");
+		assertEquals("lastSD", doc.find("lastSD").getId());
+		assertNull(doc.find("lastsd"));
+	}
+	
+	@Test
 	public void testSimple () {
 		IDocument doc = Factory.SI.createDocument();
 		doc.setSrcLang("en");
@@ -46,8 +84,7 @@ public class DocumentTests {
 		assertEquals("en", doc.getSrcLang());
 		assertEquals("fr", doc.getTrgLang());
 		
-		ISubDocument sd = doc.addSubDocument();
-		sd.setId("f1");
+		ISubDocument sd = doc.addSubDocument("f1");
 		assertTrue(doc==sd.getDocument());
 		
 		IUnit unit = sd.addUnit();

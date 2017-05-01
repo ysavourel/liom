@@ -48,10 +48,10 @@ public enum Factory {
 		IDocument doc = new Document();
 		doc.setSrcLang(srcLang);
 		doc.setTrgLang(trgLang);
-		ISubDocument sd = doc.addSubDocument();
-		sd.setId(subDocId);
+		ISubDocument sd = doc.addSubDocument(subDocId);
 		IUnit unit = sd.addUnit();
 		unit.setId(unitId);
 		return unit.addSegment();
 	}
+
 }

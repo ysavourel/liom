@@ -25,9 +25,9 @@ import org.oasisopen.liom.api.core.IfNoTarget;
 
 public class SubUnit implements ISubUnit {
 
-	final private boolean isSegment;
+	final private transient IUnit parent;
 	
-	private IUnit parent;
+	final private boolean isSegment;
 	
 	private String id;
 	private String srcLang;

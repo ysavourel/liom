@@ -28,7 +28,6 @@ import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
-import org.oasisopen.liom.api.core.IWithGroupOrUnit;
 import org.oasisopen.liom.api.core.IWithNotes;
 import org.oasisopen.liom.api.core.TargetState;
 

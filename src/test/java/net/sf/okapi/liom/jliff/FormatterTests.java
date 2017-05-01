@@ -16,23 +16,17 @@
 
 package net.sf.okapi.liom.jliff;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-
 import org.junit.Test;
 import org.oasisopen.liom.api.core.AppliesTo;
-import org.oasisopen.liom.api.core.IfNoTarget;
-import org.oasisopen.liom.api.core.TargetState;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.ISegment;
 import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
+import org.oasisopen.liom.api.core.IfNoTarget;
+import org.oasisopen.liom.api.core.TargetState;
 
 import net.sf.okapi.liom.api.core.Factory;
-import net.sf.okapi.liom.api.core.Skeleton;
 
 public class FormatterTests {
 
@@ -67,8 +61,7 @@ public class FormatterTests {
 	private IDocument createDocument1 () {
 		IDocument doc = Factory.SI.createDocument();
 		doc.setTrgLang("fr");
-		ISubDocument sd = doc.addSubDocument();
-		sd.setId("f1");
+		ISubDocument sd = doc.addSubDocument("f1");
 		sd.setOriginal("myOriginalFile");
 		// Add notes
 		sd.addNote().setText("My note n1").setId("n1").setAppliesTo(AppliesTo.SOURCE);
@@ -109,8 +102,7 @@ public class FormatterTests {
 		IDocument doc = Factory.SI.createDocument();
 		doc.setSrcLang("en-US");
 		doc.setSrcLang("ja-JP");
-		ISubDocument sd = doc.addSubDocument();
-		sd.setId("f1");
+		ISubDocument sd = doc.addSubDocument("f1");
 		sd.setOriginal("Graphic Example.psd");
 		sd.newSkeleton().setRef("Graphic Example.psd.skl");
 		
@@ -138,8 +130,7 @@ public class FormatterTests {
 		IDocument doc = Factory.SI.createDocument();
 		doc.setSrcLang("en");
 		doc.setSrcLang("fr");
-		ISubDocument sd = doc.addSubDocument();
-		sd.setId("f1");
+		ISubDocument sd = doc.addSubDocument("f1");
 		
 		IUnit unit = sd.addUnit();
 		unit.setId("u1");

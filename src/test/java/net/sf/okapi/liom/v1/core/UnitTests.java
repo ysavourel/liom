@@ -23,6 +23,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.oasisopen.liom.api.core.Directionality;
 import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IfNoTarget;
 
 import net.sf.okapi.liom.api.core.Unit;
@@ -31,7 +32,7 @@ public class UnitTests {
 
 	@Test
 	public void testSimple () {
-		Unit unit = new Unit(null);
+		IUnit unit = new Unit(null);
 		assertTrue(unit.isSourceEmpty());
 		assertTrue(unit.isTargetEmpty());
 		
