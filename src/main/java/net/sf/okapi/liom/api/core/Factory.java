@@ -17,6 +17,9 @@
 package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.IDocument;
+import org.oasisopen.liom.api.core.ISegment;
+import org.oasisopen.liom.api.core.ISubDocument;
+import org.oasisopen.liom.api.core.IUnit;
 
 public enum Factory {
 	
@@ -29,4 +32,26 @@ public enum Factory {
 		return new Document();
 	}
 
+	/**
+	 * Creates a new document, a sub-document a unit with one source segment.
+	 * @param srcLang the source language.
+	 * @param trgLang the target language.
+	 * @param subDocId the ID of the sub-document.
+	 * @param unitId the ID of the unit.
+	 * @return the segment of the first unit in the first sub-document of the new document.
+	 */
+	public ISegment createDocumentUpToSegment (String srcLang,
+		String trgLang,
+		String subDocId,
+		String unitId)
+	{
+		IDocument doc = new Document();
+		doc.setSrcLang(srcLang);
+		doc.setTrgLang(trgLang);
+		ISubDocument sd = doc.addSubDocument();
+		sd.setId(subDocId);
+		IUnit unit = sd.addUnit();
+		unit.setId(unitId);
+		return unit.addSegment();
+	}
 }

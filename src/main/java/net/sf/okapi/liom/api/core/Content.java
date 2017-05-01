@@ -19,9 +19,7 @@ package net.sf.okapi.liom.api.core;
 import java.util.Iterator;
 
 import org.oasisopen.liom.api.core.IContent;
-import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ISubUnit;
-import org.oasisopen.liom.api.core.ITarget;
 
 public class Content implements IContent {
 
@@ -38,21 +36,40 @@ public class Content implements IContent {
 		this.isSource = isSource;
 	}
 	
+	/**
+	 * Creates a new {@link Target} object and copy a given content in it.
+	 * @param parent the parent {@link ISubUnit} for this content.
+	 * @param isSource true if the content to create is for the source, false if it is for the target. 
+	 * @param from the object to copy the content from.
+	 */
+	public Content (ISubUnit parent,
+		boolean isSource,
+		Content from)
+	{
+		this(parent, isSource);
+		this.ctext = new StringBuilder(from.ctext);
+	}
+
 	@Override
 	public boolean isSource () {
 		return isSource;
 	}
 
 	@Override
-	public ISource asSource () {
-		if ( isSource ) return (ISource)this;
+	public IContent asSource () {
+		if ( isSource ) return this;
 		else return null;
 	}
 
 	@Override
-	public ITarget asTarget () {
-		if ( !isSource ) return (ITarget)this;
+	public IContent asTarget () {
+		if ( !isSource ) return this;
 		else return null;
+	}
+
+	@Override
+	public ISubUnit getParent () {
+		return parent;
 	}
 
 	@Override

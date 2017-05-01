@@ -92,8 +92,8 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<
 	}
 
 	@Override
-	public IWithGroupOrUnit getParent () {
-		return parent;
+	public <T> T getParent () {
+		return (T)parent;
 	}
 
 }

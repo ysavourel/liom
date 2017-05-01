@@ -20,7 +20,7 @@ package org.oasisopen.liom.api.core;
  * Possible values for the <code>state</code> field of a target content:
  * {@link #INITIAL}, {@link #TRANSLATED}, {@link #REVIEWED} and {@link #FINAL}.
  */
-public enum State {
+public enum TargetState {
 
 	/**
 	 * Target state: initial.
@@ -41,6 +41,8 @@ public enum State {
 	 * Target state: final.
 	 */
 	FINAL("final");
+
+	static public final TargetState DEFAULT = INITIAL;
 	
 	private String name;
 
@@ -48,7 +50,7 @@ public enum State {
 	 * Creates a new targetState object with a given name.
 	 * @param name the name of the item to create.
 	 */
-	private State (String name) {
+	private TargetState (String name) {
 		this.name = name;
 	}
 

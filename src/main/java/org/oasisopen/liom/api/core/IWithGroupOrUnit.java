@@ -22,4 +22,6 @@ public interface IWithGroupOrUnit extends ICollection<IGroupOrUnit> {
 
 	public IGroup addGroup ();
 	
+	public <T> T getParent ();
+	
 }

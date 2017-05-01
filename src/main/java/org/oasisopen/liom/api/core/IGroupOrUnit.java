@@ -47,6 +47,6 @@ public interface IGroupOrUnit extends IWithContext, IWithNCObjects, IWithNCField
 	
 	public void setType (String type);
 	
-	public IWithGroupOrUnit getParent ();
+	public <T> T getParent ();
 
 }

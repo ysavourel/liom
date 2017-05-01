@@ -35,21 +35,32 @@ public interface ISubUnit {
 	
 	public IIgnorable asIgnorable ();
 	
+	public IUnit getParent ();
+	
 	public String getId ();
 	
 	public void setId (String id);
 
-	public ISource getSource ();
+	public IContent getSource ();
 	
-	public ITarget getTarget ();
-	
+	public IContent getTarget ();
+
+	/**
+	 * Indicates if this sub-unit has a target or not.
+	 * @return true if this sub-unit has a target, false if it does not.
+	 * @see isTargetEmpty
+	 */
 	public boolean hasTarget ();
 
 	public boolean isSourceEmpty ();
 	
+	/**
+	 * Indicates if the target of this sub-unit is empty or has at least one character or one tag. 
+	 * @return true if the target of this sub-unit is empty (no text and no tags), false otherwise.
+	 */
 	public boolean isTargetEmpty ();
 	
-	public ITarget getTarget (IfNoTarget ifNoTarget);
+	public IContent getTarget (IfNoTarget ifNoTarget);
 
 	public String getSrcLang ();
 	

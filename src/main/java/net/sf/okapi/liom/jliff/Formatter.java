@@ -30,6 +30,7 @@ import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
 import org.oasisopen.liom.api.core.IWithGroupOrUnit;
 import org.oasisopen.liom.api.core.IWithNotes;
+import org.oasisopen.liom.api.core.TargetState;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,23 +64,33 @@ public class Formatter {
 		out.append("}"); // End document
 	}
 
+	void inn (String name,
+		String value,
+		boolean leadComma,
+		StringBuilder sb)
+	{
+		if ( value == null ) return;
+		if ( leadComma ) sb.append(',');
+		sb.append("\""+name+"\":"+gson.toJson(value));
+	}
+
 	String toJLIFF (IDocument document) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\"version\":"+gson.toJson(document.getVersion()));
 		sb.append(",\"srcLang\":"+gson.toJson(document.getSrcLang()));
-		sb.append(",\"trgLang\":"+gson.toJson(document.getTrgLang()));
+		inn("trgLang", document.getTrgLang(), true, sb);
 		return sb.toString();
 	}
 	
 	String toJLIFF (ISubDocument sd) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("\"id\":"+gson.toJson(sd.getId()));
-		sb.append(",\"original\":"+gson.toJson(sd.getOriginal()));
-		withContextToJLIFF((IWithContext)sd, sb, true);
+		inn("original", sd.getOriginal(), true, sb);
+		withContextToJLIFF((IWithContext)sd, null, sb); // No context parent for sub-document
 		withNotesToJLIFF((IWithNotes)sd, sb, true);
 		skeletonToJLIFF(sd.getSkeleton(), sb);
 		sb.append(",");
-		toJLIFF((IWithGroupOrUnit)sd, sb);
+		subDocGroupsOrUnits(sd, sb);
 		return sb.toString();
 	}
 	
@@ -98,17 +109,24 @@ public class Formatter {
 	}
 	
 	void withContextToJLIFF (IWithContext item,
-		StringBuilder sb,
-		boolean leadComma)
+		IWithContext parent,
+		StringBuilder sb)
 	{
-		if ( leadComma ) {
-			sb.append(",");
+		if (( parent == null ) || ( parent.getTranslate() != item.getTranslate() )) {
+			sb.append(",\"translate\":"+gson.toJson(item.getTranslate()));
 		}
-		sb.append("\"translate\":"+gson.toJson(item.getTranslate()));
-		sb.append(",\"canResegment\":"+gson.toJson(item.getCanResegment()));
-		sb.append(",\"preserveWS\":"+gson.toJson(item.getPreserveWS()));
-		sb.append(",\"srcDir\":"+gson.toJson(item.getSrcDir()));
-		sb.append(",\"trgDir\":"+gson.toJson(item.getTrgDir()));
+		if (( parent == null ) || ( parent.getCanResegment() != item.getCanResegment() )) {
+			sb.append(",\"canResegment\":"+gson.toJson(item.getCanResegment()));
+		}
+		if (( parent == null ) || ( parent.getPreserveWS() != item.getPreserveWS() )) {
+			sb.append(",\"preserveWS\":"+gson.toJson(item.getPreserveWS()));
+		}
+		if (( parent == null ) || !parent.getSrcDir().equals(item.getSrcDir()) ) {
+			sb.append(",\"srcDir\":"+gson.toJson(item.getSrcDir()));
+		}
+		if (( parent == null ) || !parent.getTrgDir().equals(item.getTrgDir()) ) {
+			sb.append(",\"trgDir\":"+gson.toJson(item.getTrgDir()));
+		}
 	}
 
 	void withNotesToJLIFF (IWithNotes item,
@@ -131,35 +149,36 @@ public class Formatter {
 		sb.append("]");
 	}
 
-	void toJLIFF (IWithGroupOrUnit item,
+	void subDocGroupsOrUnits (ISubDocument item,
 		StringBuilder sb)
 	{
-		sb.append("\"groupOrUnits\":[");
+		sb.append("\"groupsOrUnits\":[");
 		for ( int i=0; i<item.size(); i++ ) {
 			IGroupOrUnit gou = item.get(i);
 			if ( i>0 ) sb.append(",");
-			toJLIFF(gou, sb);
+			toJLIFF(gou, item, sb);
 		}
 		sb.append("]");
 	}
 
 	void toJLIFF (IGroupOrUnit item,
+		IWithContext parent,
 		StringBuilder sb)
 	{
 		sb.append("{");
 		sb.append("\"isUnit\":"+gson.toJson(item.isUnit()));
-		withContextToJLIFF((IWithContext)item, sb, true);
+		withContextToJLIFF((IWithContext)item, parent, sb);
 		withNotesToJLIFF((IWithNotes)item, sb, true);
 		if ( item.isUnit() ) {
 			unitToJLIFF(item.asUnit(), sb);
 		}
 		else { // Recursive call
 			IGroup group = item.asGroup();
-			sb.append(",\"groupOrUnits\":[");
+			sb.append(",\"groupsOrUnits\":[");
 			for ( int i=0; i<group.size(); i++ ) {
 				IGroupOrUnit gou = group.get(i);
 				if ( i>0 ) sb.append(",");
-				toJLIFF(gou, sb);
+				toJLIFF(gou, item, sb);
 			}
 			sb.append("]");
 		}
@@ -182,7 +201,7 @@ public class Formatter {
 	{
 		sb.append("{");
 		sb.append("\"isSegment\":"+gson.toJson(su.isSegment()));
-		sb.append(",\"id\":"+gson.toJson(su.getId()));
+		inn("id", su.getId(), true, sb);
 		sb.append(",\"srcLang\":"+gson.toJson(su.getSrcLang()));
 		sb.append(",\"trgLang\":"+gson.toJson(su.getTrgLang()));
 		sb.append(",\"preserveWS\":"+gson.toJson(su.getPreserveWS()));
@@ -193,8 +212,10 @@ public class Formatter {
 		if ( su.isSegment() ) {
 			ISegment seg = su.asSegment();
 			sb.append(",\"canResegment\":"+gson.toJson(seg.getCanReSegment()));
-			sb.append(",\"state\":"+gson.toJson(seg.getState().toString()));
-			sb.append(",\"subState\":"+gson.toJson(seg.getSubState()));
+			if ( seg.getState() != TargetState.DEFAULT ) {
+				sb.append(",\"state\":"+gson.toJson(seg.getState().toString()));
+			}
+			inn("subState", seg.getSubState(), true, sb);
 		}
 		toJLIFF(su.getSource(), sb);
 		toJLIFF(su.getTarget(), sb);
@@ -206,15 +227,6 @@ public class Formatter {
 	{
 		if ( content == null ) return;
 		sb.append(",\""+(content.isSource() ? "source" : "target")+"\":[");
-//		sb.append("\"lang\":"+gson.toJson(content.getLang()));
-//		sb.append(",\"preserveWS\":"+gson.toJson(content.getPreserveWS()));
-//		if ( !content.isSource() ) {
-//			if ( content.asTarget().getOrder() > 0 ) {
-//				sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
-//			}
-//		}
-
-		//sb.append("\"cnt\":[");
 		boolean first = true;
 		for ( Object obj : content ) {
 			if ( obj instanceof String ) {
@@ -224,8 +236,6 @@ public class Formatter {
 			}
 		}
 		sb.append("]");
-		
-		//sb.append("}");
 	}
 	
 	public String makePretty (String json) {

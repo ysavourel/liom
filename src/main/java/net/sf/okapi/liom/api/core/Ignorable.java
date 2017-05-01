@@ -17,11 +17,12 @@
 package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.IIgnorable;
+import org.oasisopen.liom.api.core.IUnit;
 
 public class Ignorable extends SubUnit implements IIgnorable {
 
-	public Ignorable () {
-		super(false);
+	public Ignorable (IUnit parent) {
+		super(parent, false);
 	}
 
 }

@@ -22,12 +22,12 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
 import org.oasisopen.liom.api.core.INote;
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
@@ -104,6 +104,19 @@ public class DocumentTests {
 			}
 		}
 	}
+
+	@Test
+	public void testCreateDocumentUpTosegment () {
+		ISegment seg = Factory.SI.createDocumentUpToSegment("de", "zh-CN", "sd1", "u1");
+		IUnit unit = seg.getParent();
+		assertEquals("u1", unit.getId());
+		ISubDocument sd = unit.getParent();
+		assertEquals("sd1", sd.getId());
+		IDocument doc = sd.getParent();
+		assertEquals("de", doc.getSrcLang());
+		assertEquals("zh-CN", doc.getTrgLang());
+		assertTrue(doc==sd.getDocument());
+	}
 	
 	private void showGroupOrUnit (IGroupOrUnit gou,
 		int level)
@@ -162,7 +175,7 @@ public class DocumentTests {
 		String indent)
 	{
 		System.out.println(indent+" id="+su.getId());
-		ISource src = su.getSource();
+		IContent src = su.getSource();
 		System.out.println(indent+" src="+src.toString());
 	}
 

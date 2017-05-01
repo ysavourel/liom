@@ -24,7 +24,7 @@ import static org.junit.Assert.assertTrue;
 import org.junit.Test;
 import org.oasisopen.liom.api.core.AppliesTo;
 import org.oasisopen.liom.api.core.IfNoTarget;
-import org.oasisopen.liom.api.core.State;
+import org.oasisopen.liom.api.core.TargetState;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.ISegment;
@@ -81,6 +81,8 @@ public class FormatterTests {
 		ISegment seg = unit.addSegment();
 		seg.setId("u1-s1");
 		seg.getSource().append("Source for u1-s1.");
+		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("Target for u1-s1.");
+		seg.setState(TargetState.TRANSLATED);
 		
 		// Add a group
 		IGroup group = sd.addGroup();
@@ -91,6 +93,8 @@ public class FormatterTests {
 		// Add a group to the group
 		IGroup group2 = sd.addGroup();
 		group2.setId("g2");
+		group2.setCanResegment(false);
+		group2.setTranslate(false);
 		// Add a unit in the nested group
 		unit = group2.addUnit();
 		unit.setId("g2-u1");
@@ -141,7 +145,7 @@ public class FormatterTests {
 		unit.setId("u1");
 		ISegment seg = unit.addSegment();
 		seg.setCanResegment(false);
-		seg.setState(State.TRANSLATED);
+		seg.setState(TargetState.TRANSLATED);
 		seg.getSource().append("text");
 		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("TEXT");
 

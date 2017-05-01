@@ -20,9 +20,11 @@ public interface IContent extends Iterable<Object> {
 
 	public boolean isSource ();
 	
-	public ISource asSource ();
+	public IContent asSource ();
 	
-	public ITarget asTarget ();
+	public IContent asTarget ();
+	
+	public ISubUnit getParent ();
 
 	public String getLang ();
 	

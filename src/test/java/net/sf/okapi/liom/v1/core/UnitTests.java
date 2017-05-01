@@ -18,26 +18,13 @@ package net.sf.okapi.liom.v1.core;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 import org.oasisopen.liom.api.core.Directionality;
-import org.oasisopen.liom.api.core.IDocument;
-import org.oasisopen.liom.api.core.IGroup;
-import org.oasisopen.liom.api.core.IGroupOrUnit;
-import org.oasisopen.liom.api.core.INote;
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISource;
-import org.oasisopen.liom.api.core.ISubDocument;
-import org.oasisopen.liom.api.core.ISubUnit;
-import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IWithContext;
-import org.oasisopen.liom.api.core.IWithNotes;
 import org.oasisopen.liom.api.core.IfNoTarget;
 
-import net.sf.okapi.liom.api.core.Factory;
-import net.sf.okapi.liom.api.core.Segment;
 import net.sf.okapi.liom.api.core.Unit;
 
 public class UnitTests {

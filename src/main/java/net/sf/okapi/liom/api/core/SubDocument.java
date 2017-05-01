@@ -85,4 +85,9 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 		return skeleton;
 	}
 
+	@Override
+	public <T> T getParent () {
+		return (T)document;
+	}
+
 }

@@ -17,16 +17,17 @@
 package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.State;
+import org.oasisopen.liom.api.core.IUnit;
+import org.oasisopen.liom.api.core.TargetState;
 
 public class Segment extends SubUnit implements ISegment {
 
 	private boolean canResegment;
-	private State state = State.INITIAL;
+	private TargetState state = TargetState.INITIAL;
 	private String subState;
 	
-	public Segment () {
-		super(true);
+	public Segment (IUnit parent) {
+		super(parent, true);
 	}
 
 	@Override
@@ -40,12 +41,12 @@ public class Segment extends SubUnit implements ISegment {
 	}
 
 	@Override
-	public State getState () {
+	public TargetState getState () {
 		return state;
 	}
 
 	@Override
-	public void setState (State state) {
+	public void setState (TargetState state) {
 		this.state = state;
 	}
 

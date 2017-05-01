@@ -14,48 +14,36 @@
   limitations under the License.
 ===========================================================================*/
 
-package net.sf.okapi.liom.api.core;
+package net.sf.okapi.liom.v1.core;
 
-import org.oasisopen.liom.api.core.IIgnorable;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
-import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+import org.oasisopen.liom.api.core.IfNoTarget;
 
-public class Unit extends ImplData3<ISubUnit> implements IUnit {
+import net.sf.okapi.liom.api.core.Unit;
 
-	public Unit (IWithGroupOrUnit parent) {
-		super(true, parent);
-	}
+public class ContentTests {
 
-	@Override
-	public ISegment addSegment () {
-		ISegment item = new Segment(this);
-		list.add(item);
-		return item;
-	}
+	@Test
+	public void testSimple () {
+		IUnit unit = new Unit(null);
+		ISegment seg1 = unit.addSegment();
+		IContent src1 = seg1.getSource();
+		src1.append("text1");
+		assertTrue(seg1==src1.getParent());
+		assertEquals("text1", src1.toString());
 
-	@Override
-	public IIgnorable addIgnorable () {
-		IIgnorable item = new Ignorable(this);
-		list.add(item);
-		return item;
-	}
-
-	@Override
-	public boolean isSourceEmpty () {
-		for ( int i=0; i<size(); i++ ) {
-			if ( !get(i).isSourceEmpty() ) return false;
-		}
-		return true;
-	}
-
-	@Override
-	public boolean isTargetEmpty () {
-		for ( int i=0; i<size(); i++ ) {
-			if ( !get(i).isTargetEmpty() ) return false;
-		}
-		return true;
+		ISegment seg2 = unit.addSegment();
+		IContent src2 = seg2.getSource();
+		src2.append("text2");
+		IContent trg2 = seg2.getTarget(IfNoTarget.CLONE_SOURCE);
+		assertTrue(seg2==trg2.getParent());
+		assertEquals("text2", src2.toString());
+		assertEquals("text2", trg2.toString());
 	}
 
 }

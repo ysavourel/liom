@@ -16,26 +16,31 @@
 
 package net.sf.okapi.liom.api.core;
 
+import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.IIgnorable;
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ISubUnit;
-import org.oasisopen.liom.api.core.ITarget;
+import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IfNoTarget;
 
 public class SubUnit implements ISubUnit {
 
 	final private boolean isSegment;
 	
+	private IUnit parent;
+	
 	private String id;
 	private String srcLang;
 	private String trgLang;
 	private boolean preserveWS;
 	private int trgOrder;
-	private ISource source = new Source(this);
-	private ITarget target;
+	private IContent source = new Content(this, true);
+	private IContent target;
 	
-	public SubUnit (boolean isSegment) {
+	public SubUnit (IUnit parent,
+		boolean isSegment)
+	{
+		this.parent = parent;
 		this.isSegment = isSegment;
 	}
 	
@@ -57,6 +62,11 @@ public class SubUnit implements ISubUnit {
 	}
 
 	@Override
+	public IUnit getParent() {
+		return parent;
+	}
+	
+	@Override
 	public String getId () {
 		return id;
 	}
@@ -67,12 +77,12 @@ public class SubUnit implements ISubUnit {
 	}
 
 	@Override
-	public ISource getSource () {
+	public IContent getSource () {
 		return source;
 	}
 
 	@Override
-	public ITarget getTarget () {
+	public IContent getTarget () {
 		return target;
 	}
 
@@ -82,14 +92,14 @@ public class SubUnit implements ISubUnit {
 	}
 
 	@Override
-	public ITarget getTarget (IfNoTarget ifNoTarget) {
+	public IContent getTarget (IfNoTarget ifNoTarget) {
 		if ( target == null ) {
 			switch ( ifNoTarget ) {
 			case CLONE_SOURCE:
-				target = new Target(this, (Content)source);
+				target = new Content(this, false, (Content)source);
 				break;
 			case CREATE_EMPTY:
-				target = new Target(this);
+				target = new Content(this, false);
 				break;
 			case DONT_CREATE:
 				// Do not create: leave it null

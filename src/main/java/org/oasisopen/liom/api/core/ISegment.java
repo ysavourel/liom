@@ -25,9 +25,9 @@ public interface ISegment extends ISubUnit {
 	
 	public void setCanResegment (boolean canResegment);
 	
-	public State getState ();
+	public TargetState getState ();
 	
-	public void setState (State state);
+	public void setState (TargetState state);
 	
 	public String getSubState ();
 	
