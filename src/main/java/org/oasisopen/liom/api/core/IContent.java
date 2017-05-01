@@ -26,13 +26,7 @@ public interface IContent extends Iterable<Object> {
 	
 	public ISubUnit getParent ();
 
-	public String getLang ();
-	
-	public IContent setLang (String lang);
-	
-	public boolean getPreserveWS ();
-	
-	public IContent setPreserveWS (boolean preserveWS);
+	public IContent set (String plainText);
 
 	/**
 	 * Adds a string of plain text at the end of this content.

@@ -16,8 +16,6 @@
 
 package org.oasisopen.liom.api.core;
 
-import java.util.List;
-
 public interface ICTag extends ITag {
 
 	public String getSubType ();
@@ -40,9 +38,15 @@ public interface ICTag extends ITag {
 	
 	public void setDataRef (String dataRef);
 
-	public List<String> getSubFlows ();
+	public String getData ();
 	
-	public void setSubFlows (List<String> subFlows);
+	public boolean hasData ();
+	
+	public void setData (String data);
+
+	public String getSubFlows ();
+	
+	public void setSubFlows (String subFlows);
 
 	public String getCopyOf ();
 	

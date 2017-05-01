@@ -1,5 +1,5 @@
 /*===========================================================================
-  Copyright (C) 2017 by the Okapi Framework contributors
+  Copyright (C) 2011-2014 by the Okapi Framework contributors
 -----------------------------------------------------------------------------
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -16,22 +16,29 @@
 
 package org.oasisopen.liom.api.core;
 
-public interface ITag {
+/**
+ * Possible types for tags:
+ * {@link #OPENING}, {@link #CLOSING} and {@link #STANDALONE}.
+ */
+public enum TagType {
 
-	public boolean isMarker ();
-
-	public IMTag asMTag ();
+	/**
+	 * Opening tag of a spanning code or opening tag for a marker.
+	 * <p>For example, the tag representing the start tag of an HTML bold element.
+	 */
+	OPENING,
 	
-	public ICTag asCTag ();
+	/**
+	 * Closing tag of a spanning code or closing tag for a marker.
+	 * <p>For example, the tag representing the end tag of an HTML bold element.
+	 */
+	CLOSING,
 	
-	public String getId ();
-	
-	public void setId (String id);
-	
-	public String getType ();
-	
-	public void seType (String type);
-	
-	public TagType getTagType ();
+	/**
+	 * Standalone marker for a standalone code.
+	 * <p>For example, the tag for the code representing an HTML line break.
+	 * <p>This type is not used for markers ({@link MTag}).
+	 */
+	STANDALONE
 
 }

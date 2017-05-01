@@ -14,24 +14,8 @@
   limitations under the License.
 ===========================================================================*/
 
-package org.oasisopen.liom.api.core;
+package net.sf.okapi.liom.api.core;
 
-public interface ITag {
-
-	public boolean isMarker ();
-
-	public IMTag asMTag ();
-	
-	public ICTag asCTag ();
-	
-	public String getId ();
-	
-	public void setId (String id);
-	
-	public String getType ();
-	
-	public void seType (String type);
-	
-	public TagType getTagType ();
+public class Store {
 
 }
