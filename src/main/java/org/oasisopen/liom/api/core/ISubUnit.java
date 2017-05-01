@@ -51,4 +51,20 @@ public interface ISubUnit {
 	
 	public ITarget getTarget (IfNoTarget ifNoTarget);
 
+	public String getSrcLang ();
+	
+	public ISubUnit setSrcLang (String srcLang);
+
+	public String getTrgLang ();
+	
+	public ISubUnit setTrgLang (String trgLang);
+	
+	public boolean getPreserveWS ();
+	
+	public ISubUnit setPreserveWS (boolean preserveWS);
+
+	public int getTrgOrder ();
+
+	public ISubUnit setTrgOrder (int trgOrder);
+
 }

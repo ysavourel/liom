@@ -16,6 +16,7 @@
 
 package net.sf.okapi.liom.api.core;
 
+import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.ITarget;
 
 public class Target extends Content implements ITarget {
@@ -24,17 +25,20 @@ public class Target extends Content implements ITarget {
 	
 	/**
 	 * Creates a new {@link Target} object.
+	 * @param parent parent of this target.
 	 */
-	public Target () {
-		super(false);
+	public Target (ISubUnit parent) {
+		super(parent, false);
 	}
 	
 	/**
 	 * Creates a new {@link Target} object and copy a given content in it.
 	 * @param from the object to copy the content from.
 	 */
-	public Target (Content from) {
-		super(false);
+	public Target (ISubUnit parent,
+		Content from)
+	{
+		super(parent, false);
 		this.ctext = new StringBuilder(from.ctext);
 	}
 

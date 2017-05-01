@@ -20,17 +20,21 @@ import java.util.Iterator;
 
 import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISource;
+import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.ITarget;
 
 public class Content implements IContent {
 
 	final private boolean isSource;
+
+	private ISubUnit parent;
 	
-	protected String lang;
-	protected boolean preserveWS;
 	protected StringBuilder ctext = new StringBuilder();
 
-	public Content (boolean isSource) {
+	public Content (ISubUnit parent,
+		boolean isSource)
+	{
+		this.parent = parent;
 		this.isSource = isSource;
 	}
 	
@@ -53,23 +57,25 @@ public class Content implements IContent {
 
 	@Override
 	public String getLang () {
-		return lang;
+		if ( isSource ) return parent.getSrcLang();
+		else return parent.getTrgLang();
 	}
 
 	@Override
 	public IContent setLang (String lang) {
-		this.lang = lang;
+		if ( isSource ) parent.setSrcLang(lang);
+		else parent.setTrgLang(lang);
 		return this;
 	}
 
 	@Override
 	public boolean getPreserveWS () {
-		return preserveWS;
+		return parent.getPreserveWS();
 	}
 
 	@Override
 	public IContent setPreserveWS (boolean preserveWS) {
-		this.preserveWS = preserveWS;
+		parent.setPreserveWS(preserveWS);
 		return this;
 	}
 

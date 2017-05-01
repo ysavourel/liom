@@ -17,14 +17,16 @@
 package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.ISource;
+import org.oasisopen.liom.api.core.ISubUnit;
 
 public class Source extends Content implements ISource {
 
 	/**
 	 * Creates a new {@link Source} object.
+	 * @param parent parent of this source.
 	 */
-	public Source () {
-		super(true);
+	public Source (ISubUnit parent) {
+		super(parent, true);
 	}
 
 }

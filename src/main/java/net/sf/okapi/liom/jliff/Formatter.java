@@ -183,6 +183,13 @@ public class Formatter {
 		sb.append("{");
 		sb.append("\"isSegment\":"+gson.toJson(su.isSegment()));
 		sb.append(",\"id\":"+gson.toJson(su.getId()));
+		sb.append(",\"srcLang\":"+gson.toJson(su.getSrcLang()));
+		sb.append(",\"trgLang\":"+gson.toJson(su.getTrgLang()));
+		sb.append(",\"preserveWS\":"+gson.toJson(su.getPreserveWS()));
+		if ( su.getTrgOrder() > 0 ) {
+			sb.append(",\"trgOrder\":"+gson.toJson(su.getTrgOrder()));
+		}
+		
 		if ( su.isSegment() ) {
 			ISegment seg = su.asSegment();
 			sb.append(",\"canResegment\":"+gson.toJson(seg.getCanReSegment()));
@@ -198,16 +205,16 @@ public class Formatter {
 		StringBuilder sb)
 	{
 		if ( content == null ) return;
-		sb.append(",\""+(content.isSource() ? "source" : "target")+"\":{");
-		sb.append("\"lang\":"+gson.toJson(content.getLang()));
-		sb.append(",\"preserveWS\":"+gson.toJson(content.getPreserveWS()));
-		if ( !content.isSource() ) {
-			if ( content.asTarget().getOrder() > 0 ) {
-				sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
-			}
-		}
+		sb.append(",\""+(content.isSource() ? "source" : "target")+"\":[");
+//		sb.append("\"lang\":"+gson.toJson(content.getLang()));
+//		sb.append(",\"preserveWS\":"+gson.toJson(content.getPreserveWS()));
+//		if ( !content.isSource() ) {
+//			if ( content.asTarget().getOrder() > 0 ) {
+//				sb.append(",\"order\":"+gson.toJson(content.asTarget().getOrder()));
+//			}
+//		}
 
-		sb.append(",\"cnt\":[");
+		//sb.append("\"cnt\":[");
 		boolean first = true;
 		for ( Object obj : content ) {
 			if ( obj instanceof String ) {
@@ -218,7 +225,7 @@ public class Formatter {
 		}
 		sb.append("]");
 		
-		sb.append("}");
+		//sb.append("}");
 	}
 	
 	public String makePretty (String json) {

@@ -16,19 +16,23 @@
 
 package net.sf.okapi.liom.api.core;
 
-import org.oasisopen.liom.api.core.IfNoTarget;
 import org.oasisopen.liom.api.core.IIgnorable;
 import org.oasisopen.liom.api.core.ISegment;
 import org.oasisopen.liom.api.core.ISource;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.ITarget;
+import org.oasisopen.liom.api.core.IfNoTarget;
 
 public class SubUnit implements ISubUnit {
 
 	final private boolean isSegment;
 	
 	private String id;
-	private ISource source = new Source();
+	private String srcLang;
+	private String trgLang;
+	private boolean preserveWS;
+	private int trgOrder;
+	private ISource source = new Source(this);
 	private ITarget target;
 	
 	public SubUnit (boolean isSegment) {
@@ -82,10 +86,10 @@ public class SubUnit implements ISubUnit {
 		if ( target == null ) {
 			switch ( ifNoTarget ) {
 			case CLONE_SOURCE:
-				target = new Target((Content)source);
+				target = new Target(this, (Content)source);
 				break;
 			case CREATE_EMPTY:
-				target = new Target();
+				target = new Target(this);
 				break;
 			case DONT_CREATE:
 				// Do not create: leave it null
@@ -103,6 +107,50 @@ public class SubUnit implements ISubUnit {
 	@Override
 	public boolean isTargetEmpty () {
 		return (( target == null ) || target.isEmpty() );
+	}
+
+	@Override
+	public String getSrcLang () {
+		return srcLang;
+	}
+
+	@Override
+	public ISubUnit setSrcLang (String srcLang) {
+		this.srcLang = srcLang;
+		return this;
+	}
+
+	@Override
+	public String getTrgLang () {
+		return trgLang;
+	}
+
+	@Override
+	public ISubUnit setTrgLang (String trgLang) {
+		this.trgLang = trgLang;
+		return this;
+	}
+
+	@Override
+	public boolean getPreserveWS () {
+		return preserveWS;
+	}
+
+	@Override
+	public ISubUnit setPreserveWS (boolean preserveWS) {
+		this.preserveWS = preserveWS;
+		return this;
+	}
+
+	@Override
+	public int getTrgOrder () {
+		return trgOrder;
+	}
+
+	@Override
+	public ISubUnit setTrgOrder (int trgOrder) {
+		this.trgOrder = trgOrder;
+		return this;
 	}
 
 }
