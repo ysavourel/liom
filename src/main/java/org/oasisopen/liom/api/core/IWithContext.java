@@ -18,13 +18,13 @@ package org.oasisopen.liom.api.core;
 
 public interface IWithContext {
 
-	public boolean getCanResegment ();
+	public Boolean getCanResegment ();
 	
-	public void setCanResegment (boolean canResegment);
+	public void setCanResegment (Boolean canResegment);
 	
-	public boolean getTranslate ();
+	public Boolean getTranslate ();
 	
-	public void setTranslate (boolean translate);
+	public void setTranslate (Boolean translate);
 	
 	public Directionality getSrcDir ();
 	
@@ -34,8 +34,8 @@ public interface IWithContext {
 	
 	public void setTrgDir (Directionality trgtDir);
 
-	public boolean getPreserveWS ();
+	public Boolean getPreserveWS ();
 	
-	public void setPreserveWS (boolean preserveWS);
+	public void setPreserveWS (Boolean preserveWS);
 
 }

@@ -21,6 +21,10 @@ import java.util.regex.Pattern;
 
 import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.ISubUnit;
+import org.oasisopen.liom.api.core.TagType;
+
+import net.sf.okapi.liom.api.InvalidParameterException;
+import net.sf.okapi.liom.api.InvalidPositionException;
 
 public class Content implements IContent {
 
@@ -29,12 +33,18 @@ public class Content implements IContent {
 	private ISubUnit parent;
 	
 	protected StringBuilder ctext = new StringBuilder();
+	
+	private transient Tags tags;
+	private transient Store store;
 
 	public Content (ISubUnit parent,
 		boolean isSource)
 	{
 		this.parent = parent;
 		this.isSource = isSource;
+		this.store = ((Unit)parent.getParent()).getStore();
+		if ( isSource ) this.tags = store.getSourceTags();
+		else this.tags = store.getTargetTags();
 	}
 	
 	/**
@@ -125,6 +135,101 @@ public class Content implements IContent {
 		return this;
 	}
 
+	/**
+	 * Inserts a code at a given position (including the end) of this fragment.
+	 * @param tagType the type of tag of the code.
+	 * @param type the type of the code (can be null).
+	 * @param id the ID of the code (if null an new ID is created automatically)
+	 * This parameter is ignored when the new tag is created by connecting it with another one.
+	 * @param data the original data for the code (can be null).
+	 * @param offset the position where to insert the code. Use -1 to append. Other negative values or values greater
+	 * than the length of the coded text also cause the code to be appended at the end of the fragment.
+	 * @param connect true to connect a new opening code to its closing counterpart, or to connect
+	 * a new closing code to its opening counterpart (the counterpart may be in a different content).
+	 * Use false to create new opening or closing codes.
+	 * This option is ignored used if the code is standalone.
+	 * @param allowOrphan true to allow the connect option to fail, that is: to not found the counterpart
+	 * of the new code. this option is ignore if connect is false or if the new code is a standalone code. 
+	 * @return the new tag created.
+	 */
+	public CTag insert (TagType tagType,
+		String type,
+		String id, 
+		String data,
+		int offset,
+		boolean connect,
+		boolean allowOrphan)
+	{
+		// Check ID
+		if ( id == null ) {
+			if ( connect && !allowOrphan ) {
+				throw new InvalidParameterException(
+					"Cannot have auto-generated ID when requesting to link to an existing code and not allowing orphan.");
+			}
+			// Generate an Id
+			id = store.suggestId(false);
+		}
+		// Check/adjust the offset
+		if (( offset < 0 ) || ( offset > ctext.length() )) {
+			offset = -1; // append at the end
+		}
+		else { // Check if the insertion point is valid
+			checkPosition(offset);
+		}
+		// Try to get the counterpart code if it is requested
+		Tag opposite = null;
+		if ( connect && ( tagType != TagType.STANDALONE )) {
+			if ( tagType == TagType.OPENING ) {
+				opposite = tags.getClosingTag(id);
+			}
+			else { // TagType.CLOSING
+				opposite = tags.getOpeningTag(id);
+			}
+			if ( opposite == null ) {
+				if ( !allowOrphan ) {
+					throw new InvalidParameterException(
+						String.format("Cannot add closing/opening code because opening/closing code for id '%s' does not exist.", id));
+				}
+			}
+		}
+		// Create the new code
+		CTag ctag;
+		if ( opposite == null ) {
+			// This work also for standalone since opposite will always be null for that case
+			ctag = new CTag(null, tagType, id, data);
+		}
+		else {
+			// Here id comes from the opposite tag
+			CTag tmp = (CTag)opposite;
+			ctag = new CTag(tmp, data);
+	
+			// The case of the firstNo in closing tag is handled in getReorder()
+//			// Set the canReorder value based on the opposite tag.
+//			switch ( tmp.getTagType() ) {
+//			case OPENING:
+//				if ( tmp.getCanReorder() == CanReorder.FIRSTNO ) {
+//					ctag.setCanReorder(CanReorder.NO);
+//					break;
+//				}
+//				// Else: fall thru
+//			default:
+//				ctag.setCanReorder(tmp.getCanReorder());
+//			}
+			// But we still need to copy the value (maybe should move it to code-common?)
+			ctag.setCanReorder(tmp.getCanReorder());
+		}
+
+		// Add the new code to the collection and add its reference in the coded text
+		if ( offset == -1 ) ctext.append(Content.toRef(tags.add(ctag)));
+		else ctext.insert(offset, Content.toRef(tags.add(ctag)));
+		// Set the type only if not null, to avoid overriding type already defined
+		// when this new code is created with a counterpart.
+		if ( type != null ) {
+			ctag.setType(type);
+		}
+		return ctag;
+	}
+	
 	/* ================================================================ */
 	/* Implementation specific methods                                  */
 	/* ================================================================ */
@@ -259,6 +364,21 @@ public class Content implements IContent {
 	 */
 	public String getCodedText () {
 		return ctext.toString();
+	}
+
+	/**
+	 * Verifies if a given position in the coded text is on the second special
+	 * character of a tag reference.
+	 * @param position the position to check.
+	 * @throws InvalidPositionException when position points inside a tag reference.
+	 */
+	public void checkPosition (int position) {
+		if ( position > 0 ) {
+			if ( isChar1(ctext.charAt(position-1)) ) {
+				throw new InvalidPositionException (
+					String.format("Position %d is inside a tag reference.", position));
+			}
+		}
 	}
 
 	

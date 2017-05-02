@@ -30,6 +30,10 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<
 
 	protected List<T> list = new ArrayList<>();
 	
+	public ImplData2 (IWithContext parent) {
+		super(parent);
+	}
+	
 	@Override
 	public boolean isEmpty () {
 		return list.isEmpty();

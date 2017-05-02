@@ -24,11 +24,11 @@ public interface ISubDocument extends IWithContext, IWithNCObjects, IWithNCField
 
 	public String getId ();
 	
-	public void setId (String id);
+	public ISubDocument setId (String id);
 
 	public String getOriginal ();
 	
-	public void setOriginal (String original);
+	public ISubDocument setOriginal (String original);
 
 	public ISkeleton getSkeleton ();
 	

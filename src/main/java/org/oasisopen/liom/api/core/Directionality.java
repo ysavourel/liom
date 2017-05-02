@@ -24,21 +24,31 @@ public enum Directionality {
 	/**
 	 * Automatic.
 	 */
-	AUTO,
+	AUTO("auto"),
 	
 	/**
 	 * Left-to-Right.
 	 */
-	LTR,
+	LTR("ltr"),
 	
 	/**
 	 * Right-to-Left.
 	 */
-	RTL,
+	RTL("rtl");
 	
+	private String name;
+
 	/**
-	 * Inherited from the proper parent.
+	 * Creates a new {@link Directionality} object with a given name.
+	 * @param name the name of the item to create.
 	 */
-	INHERITED;
+	private Directionality (String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString () {
+		return name;
+	}
 	
 }

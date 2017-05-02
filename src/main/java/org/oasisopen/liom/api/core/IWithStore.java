@@ -18,4 +18,6 @@ package org.oasisopen.liom.api.core;
 
 public interface IWithStore {
 
+	//IStore getStore ();
+
 }

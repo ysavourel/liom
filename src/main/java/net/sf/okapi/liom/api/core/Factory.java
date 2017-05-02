@@ -18,7 +18,6 @@ package net.sf.okapi.liom.api.core;
 
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.ISegment;
-import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
 
 public enum Factory {
@@ -45,12 +44,11 @@ public enum Factory {
 		String subDocId,
 		String unitId)
 	{
-		IDocument doc = new Document();
-		doc.setSrcLang(srcLang);
-		doc.setTrgLang(trgLang);
-		ISubDocument sd = doc.addSubDocument(subDocId);
-		IUnit unit = sd.addUnit();
-		unit.setId(unitId);
+		IUnit unit = new Document()
+			.setSrcLang(srcLang)
+			.setTrgLang(trgLang)
+			.addSubDocument(subDocId)
+			.addUnit(unitId);
 		return unit.addSegment();
 	}
 

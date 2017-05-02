@@ -16,12 +16,37 @@
 
 package org.oasisopen.liom.api.core;
 
+/**
+ * Provides access to a set of non-core fields.
+ */
 public interface INCFields {
 
+	/**
+	 * Indicates if a field exists.
+	 * @param name the name of the field.
+	 * @return true if the field was found, false otherwise.
+	 */
 	public boolean has (String name);
 	
+	/**
+	 * Gets the value for a given field.
+	 * @param name the name of the field.
+	 * @return the value, or null if not found.
+	 */
 	public String get (String name);
 	
+	/**
+	 * Sets the value for a given field.
+	 * @param name the name of the field to set.
+	 * @param value the value to set. If this field is already set, its old value is discarded.
+	 */
 	public void set (String name, String value);
+
+	/**
+	 * Removes a given field.
+	 * If the field is not found nothing happens.
+	 * @param name the name of the field to remove.
+	 */
+	public void remove (String name);
 
 }

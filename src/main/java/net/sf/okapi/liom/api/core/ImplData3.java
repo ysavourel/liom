@@ -38,10 +38,13 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields, ICollection<
 	private String type;
 	
 	public ImplData3 (boolean isUnit,
-		IWithGroupOrUnit parent)
+		IWithGroupOrUnit parent,
+		String id)
 	{
+		super(parent);
 		this.isUnit = isUnit;
 		this.parent = parent;
+		this.id = id;
 	}
 	
 	@Override

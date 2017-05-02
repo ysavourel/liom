@@ -121,10 +121,10 @@ public class Formatter {
 			sb.append(",\"preserveWS\":"+gson.toJson(item.getPreserveWS()));
 		}
 		if (( parent == null ) || !parent.getSrcDir().equals(item.getSrcDir()) ) {
-			sb.append(",\"srcDir\":"+gson.toJson(item.getSrcDir()));
+			sb.append(",\"srcDir\":"+gson.toJson(item.getSrcDir().toString()));
 		}
 		if (( parent == null ) || !parent.getTrgDir().equals(item.getTrgDir()) ) {
-			sb.append(",\"trgDir\":"+gson.toJson(item.getTrgDir()));
+			sb.append(",\"trgDir\":"+gson.toJson(item.getTrgDir().toString()));
 		}
 	}
 
@@ -203,14 +203,20 @@ public class Formatter {
 		inn("id", su.getId(), true, sb);
 		sb.append(",\"srcLang\":"+gson.toJson(su.getSrcLang()));
 		sb.append(",\"trgLang\":"+gson.toJson(su.getTrgLang()));
-		sb.append(",\"preserveWS\":"+gson.toJson(su.getPreserveWS()));
+		
+		if ( su.getPreserveWS() != su.getParent().getPreserveWS() ) {
+			sb.append(",\"preserveWS\":"+gson.toJson(su.getPreserveWS()));
+		}
+
 		if ( su.getTrgOrder() > 0 ) {
 			sb.append(",\"trgOrder\":"+gson.toJson(su.getTrgOrder()));
 		}
 		
 		if ( su.isSegment() ) {
 			ISegment seg = su.asSegment();
-			sb.append(",\"canResegment\":"+gson.toJson(seg.getCanReSegment()));
+			if ( seg.getCanResegment() != seg.getParent().getCanResegment() ) {
+				sb.append(",\"canResegment\":"+gson.toJson(seg.getCanResegment()));
+			}
 			if ( seg.getState() != TargetState.DEFAULT ) {
 				sb.append(",\"state\":"+gson.toJson(seg.getState().toString()));
 			}

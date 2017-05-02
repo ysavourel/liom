@@ -25,16 +25,16 @@ import org.oasisopen.liom.api.core.IfNoTarget;
 
 public class SubUnit implements ISubUnit {
 
-	final private transient IUnit parent;
+	final protected transient IUnit parent;
 	
 	final private boolean isSegment;
 	
 	private String id;
 	private String srcLang;
 	private String trgLang;
-	private boolean preserveWS;
+	private Boolean preserveWS;
 	private int trgOrder;
-	private IContent source = new Content(this, true);
+	private IContent source;
 	private IContent target;
 	
 	public SubUnit (IUnit parent,
@@ -42,6 +42,7 @@ public class SubUnit implements ISubUnit {
 	{
 		this.parent = parent;
 		this.isSegment = isSegment;
+		this.source = new Content(this, true);
 	}
 	
 	@Override
@@ -142,12 +143,16 @@ public class SubUnit implements ISubUnit {
 	}
 
 	@Override
-	public boolean getPreserveWS () {
+	public Boolean getPreserveWS () {
+		// If undefined: inherit from parent
+		if ( preserveWS == null ) {
+			return parent.getPreserveWS();
+		}
 		return preserveWS;
 	}
 
 	@Override
-	public ISubUnit setPreserveWS (boolean preserveWS) {
+	public ISubUnit setPreserveWS (Boolean preserveWS) {
 		this.preserveWS = preserveWS;
 		return this;
 	}

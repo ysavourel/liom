@@ -22,7 +22,7 @@ import org.oasisopen.liom.api.core.TargetState;
 
 public class Segment extends SubUnit implements ISegment {
 
-	private boolean canResegment;
+	private Boolean canResegment;
 	private TargetState state = TargetState.INITIAL;
 	private String subState;
 	
@@ -31,13 +31,18 @@ public class Segment extends SubUnit implements ISegment {
 	}
 
 	@Override
-	public boolean getCanReSegment () {
+	public Boolean getCanResegment () {
+		// If undefined: inherit from parent
+		if ( canResegment == null ) {
+			return parent.getCanResegment();
+		}
 		return canResegment;
 	}
 
 	@Override
-	public void setCanResegment (boolean canReSegment) {
-		this.canResegment = canReSegment;
+	public ISegment setCanResegment (Boolean canResegment) {
+		this.canResegment = canResegment;
+		return this;
 	}
 
 	@Override
@@ -46,8 +51,9 @@ public class Segment extends SubUnit implements ISegment {
 	}
 
 	@Override
-	public void setState (TargetState state) {
+	public ISegment setState (TargetState state) {
 		this.state = state;
+		return this;
 	}
 
 	@Override
@@ -56,8 +62,9 @@ public class Segment extends SubUnit implements ISegment {
 	}
 
 	@Override
-	public void setSubState (String subState) {
+	public ISegment setSubState (String subState) {
 		this.subState = subState;
+		return this;
 	}
 
 }

@@ -24,6 +24,7 @@ public class Document extends BaseCollection<ISubDocument> implements IDocument 
 	private String version = "1.0";
 	private String srcLang = "en";
 	private String trgLang;
+	private Boolean preserveWS = null;
 	
 	@Override
 	public String getVersion () {
@@ -36,8 +37,9 @@ public class Document extends BaseCollection<ISubDocument> implements IDocument 
 	}
 
 	@Override
-	public void setSrcLang (String srcLang) {
+	public IDocument setSrcLang (String srcLang) {
 		this.srcLang = srcLang;
+		return this;
 	}
 
 	@Override
@@ -46,8 +48,23 @@ public class Document extends BaseCollection<ISubDocument> implements IDocument 
 	}
 
 	@Override
-	public void setTrgLang (String trgLang) {
+	public IDocument setTrgLang (String trgLang) {
 		this.trgLang = trgLang;
+		return this;
+	}
+
+	@Override
+	public Boolean getPreserveWS () {
+		// If undefined: use default
+		if ( preserveWS == null ) {
+			return false; // Document default
+		}
+		return preserveWS;
+	}
+
+	@Override
+	public void setPreserveWS (Boolean preserveWS) {
+		this.preserveWS = preserveWS;
 	}
 
 	@Override

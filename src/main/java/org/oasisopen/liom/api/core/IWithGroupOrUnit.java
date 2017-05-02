@@ -16,11 +16,11 @@
 
 package org.oasisopen.liom.api.core;
 
-public interface IWithGroupOrUnit extends ICollection<IGroupOrUnit> {
+public interface IWithGroupOrUnit extends IWithContext, ICollection<IGroupOrUnit> {
 
-	public IUnit addUnit ();
+	public IUnit addUnit (String id);
 
-	public IGroup addGroup ();
+	public IGroup addGroup (String id);
 	
 	public <T> T getParent ();
 	

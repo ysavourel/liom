@@ -34,6 +34,7 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	public SubDocument (IDocument document,
 		String id)
 	{
+		super(null);
 		this.document = document;
 		setId(id);
 	}
@@ -44,8 +45,9 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	}
 
 	@Override
-	public void setId (String id) {
+	public ISubDocument setId (String id) {
 		this.id = id;
+		return this;
 	}
 
 	@Override
@@ -54,8 +56,9 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	}
 
 	@Override
-	public void setOriginal (String original) {
+	public ISubDocument setOriginal (String original) {
 		this.original = original;
+		return this;
 	}
 
 	@Override
@@ -64,15 +67,15 @@ public class SubDocument extends ImplData2<IGroupOrUnit> implements ISubDocument
 	}
 
 	@Override
-	public IUnit addUnit () {
-		IUnit item = new Unit(this);
+	public IUnit addUnit (String id) {
+		IUnit item = new Unit(this, id);
 		list.add(item);
 		return item;
 	}
 
 	@Override
-	public IGroup addGroup () {
-		IGroup item = new Group(this);
+	public IGroup addGroup (String id) {
+		IGroup item = new Group(this, id);
 		list.add(item);
 		return item;
 	}

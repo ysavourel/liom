@@ -21,34 +21,55 @@ import org.oasisopen.liom.api.core.IWithContext;
 
 public class Context implements IWithContext {
 
-	private boolean canReSegment = true;
-	private boolean translate = true;
-	private boolean preserveWS = false;
-	private Directionality srcDir = Directionality.INHERITED; // ???
-	private Directionality trgDir = Directionality.INHERITED; // ??? not sure what the default should be
+	final private transient IWithContext parent;
+	
+	private Boolean canReSegment = null;
+	private Boolean translate = null;
+	private Boolean preserveWS = null;
+	private Directionality srcDir = null;
+	private Directionality trgDir = null;
+	
+	public Context (IWithContext parent) {
+		this.parent = parent;
+	}
 	
 	@Override
-	public boolean getCanResegment () {
+	public Boolean getCanResegment () {
+		// If undefined: inherit from parent
+		if ( canReSegment == null ) {
+			if ( parent != null ) return parent.getCanResegment();
+			return true; // Sub-document default
+		}
 		return canReSegment;
 	}
 
 	@Override
-	public void setCanResegment (boolean canReSegment) {
+	public void setCanResegment (Boolean canReSegment) {
 		this.canReSegment = canReSegment;
 	}
 
 	@Override
-	public boolean getTranslate () {
+	public Boolean getTranslate () {
+		// If undefined: inherit from parent
+		if ( translate == null ) {
+			if ( parent != null ) return parent.getTranslate();
+			return true; // Sub-document default
+		}
 		return translate;
 	}
 
 	@Override
-	public void setTranslate (boolean translate) {
+	public void setTranslate (Boolean translate) {
 		this.translate = translate;
 	}
 
 	@Override
 	public Directionality getSrcDir () {
+		// If undefined: inherit from parent
+		if ( srcDir == null ) {
+			if ( parent != null ) return parent.getSrcDir();
+			return Directionality.AUTO; // Sub-document default
+		}
 		return srcDir;
 	}
 
@@ -59,6 +80,11 @@ public class Context implements IWithContext {
 
 	@Override
 	public Directionality getTrgDir () {
+		// If undefined: inherit from parent
+		if ( trgDir == null ) {
+			if ( parent != null ) return parent.getTrgDir();
+			return Directionality.AUTO; // Sub-document default
+		}
 		return trgDir;
 	}
 
@@ -68,12 +94,18 @@ public class Context implements IWithContext {
 	}
 
 	@Override
-	public boolean getPreserveWS () {
+	public Boolean getPreserveWS () {
+		// If undefined: inherit from parent
+		if ( preserveWS == null ) {
+			if ( parent != null ) return parent.getPreserveWS();
+			//TODO: get default from IDocument
+			return false; // Default
+		}
 		return preserveWS;
 	}
 
 	@Override
-	public void setPreserveWS (boolean preserveWS) {
+	public void setPreserveWS (Boolean preserveWS) {
 		this.preserveWS = preserveWS;
 	}
 

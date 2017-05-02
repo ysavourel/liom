@@ -21,16 +21,16 @@ package org.oasisopen.liom.api.core;
  */
 public interface ISegment extends ISubUnit {
 
-	public boolean getCanReSegment ();
+	public Boolean getCanResegment ();
 	
-	public void setCanResegment (boolean canResegment);
+	public ISegment setCanResegment (Boolean canResegment);
 	
 	public TargetState getState ();
 	
-	public void setState (TargetState state);
+	public ISegment setState (TargetState state);
 	
 	public String getSubState ();
 	
-	public void setSubState (String subState);
+	public ISegment setSubState (String subState);
 
 }

@@ -26,11 +26,15 @@ public interface IDocument extends ICollection<ISubDocument> {
 	
 	public String getSrcLang ();
 	
-	public void setSrcLang (String srcLang);
+	public IDocument setSrcLang (String srcLang);
 	
 	public String getTrgLang ();
 	
-	public void setTrgLang (String trgLang);
+	public IDocument setTrgLang (String trgLang);
+	
+	public Boolean getPreserveWS ();
+
+	public void setPreserveWS (Boolean preserveWS);
 
 	public ISubDocument addSubDocument (String id);
 

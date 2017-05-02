@@ -23,20 +23,22 @@ import org.oasisopen.liom.api.core.IWithGroupOrUnit;
 
 public class Group extends ImplData3<IGroupOrUnit> implements IGroup {
 
-	public Group (IWithGroupOrUnit parent) {
-		super(false, parent);
+	public Group (IWithGroupOrUnit parent,
+		String id)
+	{
+		super(false, parent, id);
 	}
 
 	@Override
-	public IUnit addUnit () {
-		IUnit item = new Unit(this);
+	public IUnit addUnit (String id) {
+		IUnit item = new Unit(this, id);
 		list.add(item);
 		return item;
 	}
 
 	@Override
-	public IGroup addGroup () {
-		IGroup item = new Group(this);
+	public IGroup addGroup (String id) {
+		IGroup item = new Group(this, id);
 		list.add(item);
 		return item;
 	}

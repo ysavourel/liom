@@ -31,6 +31,10 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields {
 	private BaseCollection<INote> notes;
 	private NCObjects ncObjs;
 	private NCFields ncFlds;
+
+	public ImplData1 (IWithContext parent) {
+		super(parent);
+	}
 	
 	@Override
 	public boolean hasNote () {

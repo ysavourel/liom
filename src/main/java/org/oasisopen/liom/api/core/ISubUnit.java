@@ -70,9 +70,9 @@ public interface ISubUnit {
 	
 	public ISubUnit setTrgLang (String trgLang);
 	
-	public boolean getPreserveWS ();
+	public Boolean getPreserveWS ();
 	
-	public ISubUnit setPreserveWS (boolean preserveWS);
+	public ISubUnit setPreserveWS (Boolean preserveWS);
 
 	public int getTrgOrder ();
 

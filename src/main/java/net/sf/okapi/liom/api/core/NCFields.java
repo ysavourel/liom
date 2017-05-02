@@ -27,7 +27,10 @@ public class NCFields implements INCFields {
 	
 	@Override
 	public boolean has (String name) {
-		return (( map != null ) && !map.isEmpty() );
+		if ( map != null ) {
+			return map.containsKey(name);
+		}
+		return false;
 	}
 
 	@Override
@@ -42,6 +45,13 @@ public class NCFields implements INCFields {
 	{
 		if ( map == null ) map = new HashMap<>();
 		map.put(name, value);
+	}
+
+	@Override
+	public void remove (String name) {
+		if ( map != null ) {
+			map.remove(name);
+		}
 	}
 
 }

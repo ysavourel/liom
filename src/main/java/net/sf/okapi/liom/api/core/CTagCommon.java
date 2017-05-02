@@ -35,7 +35,7 @@ class CTagCommon {
 	private boolean canOverlap;
 	private String subType;
 	private String copyOf;
-	private Directionality dir = Directionality.INHERITED;
+	private Directionality dir = Directionality.AUTO; //TODO: should probably be null for inheritance
 	
 	CTagCommon (String id) {
 		if ( id == null ) {

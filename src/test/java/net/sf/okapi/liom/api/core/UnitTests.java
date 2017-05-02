@@ -32,7 +32,7 @@ public class UnitTests {
 
 	@Test
 	public void testSimple () {
-		IUnit unit = new Unit(null);
+		IUnit unit = new Unit(null, "u1");
 		assertTrue(unit.isSourceEmpty());
 		assertTrue(unit.isTargetEmpty());
 		
@@ -45,8 +45,8 @@ public class UnitTests {
 		assertTrue(unit.getCanResegment());
 		assertFalse(unit.getPreserveWS());
 		assertTrue(unit.getTranslate());
-		assertEquals(Directionality.INHERITED, unit.getSrcDir());
-		assertEquals(Directionality.INHERITED, unit.getTrgDir());
+		assertEquals(Directionality.AUTO, unit.getSrcDir());
+		assertEquals(Directionality.AUTO, unit.getTrgDir());
 		
 		ISegment seg = unit.addSegment();
 		seg.getSource().append("");

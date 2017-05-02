@@ -87,9 +87,8 @@ public class DocumentTests {
 		ISubDocument sd = doc.addSubDocument("f1");
 		assertTrue(doc==sd.getDocument());
 		
-		IUnit unit = sd.addUnit();
+		IUnit unit = sd.addUnit("f1-u1");
 		assertTrue(sd==unit.getParent());
-		unit.setId("f1-u1");
 		unit.addNote()
 			.setText("Text of the note n1")
 			.setId("n1");
@@ -113,17 +112,14 @@ public class DocumentTests {
 		assertEquals("f1-u1-s1", seg.getId());
 		assertEquals("Source text.", seg.getSource().toString());
 		
-		IGroup group = sd.addGroup();
+		IGroup group = sd.addGroup("f1-g1");
 		assertTrue(sd==group.getParent());
-		group.setId("f1-g1");
 		
-		unit = group.addUnit();
+		unit = group.addUnit("f1-g1-u2");
 		assertTrue(group==unit.getParent());
-		unit.setId("f1-g1-u2");
 		
-		IGroup group2 = group.addGroup();
+		IGroup group2 = group.addGroup("f1-g1-g2");
 		assertTrue(group==group2.getParent());
-		group2.setId("f1-g1-g2");
 
 		assertFalse(doc.isEmpty());
 		System.out.println("- Document");
@@ -153,6 +149,15 @@ public class DocumentTests {
 		assertEquals("de", doc.getSrcLang());
 		assertEquals("zh-CN", doc.getTrgLang());
 		assertTrue(doc==sd.getDocument());
+	}
+	
+	@Test
+	public void testTranslateInheritanceInUnit () {
+		IGroup g1 = Factory.SI.createDocument().addSubDocument("f1").addGroup("g1");
+		g1.setTranslate(false);
+		IGroup g2 = g1.addGroup("g2");
+		IUnit unit = g2.addUnit("u1");
+		assertFalse(unit.getTranslate());
 	}
 	
 	private void showGroupOrUnit (IGroupOrUnit gou,

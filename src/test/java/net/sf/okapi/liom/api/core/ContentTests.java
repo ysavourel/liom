@@ -30,7 +30,7 @@ public class ContentTests {
 
 	@Test
 	public void testSimple () {
-		IUnit unit = new Unit(null);
+		IUnit unit = new Unit(null, "u1");
 		ISegment seg1 = unit.addSegment();
 		IContent src1 = seg1.getSource();
 		src1.append("text1");

@@ -58,6 +58,28 @@ public class FormatterTests {
 		System.out.println("==========");
 	}
 	
+	@Test
+	public void testDocument4 () {
+		// Create the document
+		IDocument doc = Factory.SI.createDocument().setSrcLang("en").setTrgLang("fy");
+		// Create a sub-document and a group
+		IGroup group = doc.addSubDocument("f1").addGroup("g1");
+		// Create a first unit and its source and target
+		ISegment seg = group.addUnit("u1").addSegment();
+		seg.getSource().append("Summer is coming.");
+		seg.setState(TargetState.TRANSLATED) // Set the target as 'translated'
+			.getTarget(IfNoTarget.CREATE_EMPTY).append("Simmer komt deroan.");
+		// Create a second unit with source (two segments and one ignorable)
+		IUnit unit = group.addUnit("u2");
+		unit.addSegment().getSource().append("Summer will be hot.");
+		unit.addIgnorable().getSource().append(' ');
+		unit.addSegment().getSource().append("But I will be at the beach.");
+		// Output it in JLIFF
+		Formatter fmt = new Formatter();
+		fmt.process(doc);
+		System.out.println(fmt.makePretty(fmt.getOutput()));
+	}
+	
 	private IDocument createDocument1 () {
 		IDocument doc = Factory.SI.createDocument();
 		doc.setTrgLang("fr");
@@ -68,8 +90,7 @@ public class FormatterTests {
 		sd.addNote().setText("My note n2").setId("n2").setPriority(1);
 		
 		// Add a unit
-		IUnit unit = sd.addUnit();
-		unit.setId("u1");
+		IUnit unit = sd.addUnit("u1");
 		unit.setName("u1Name");
 		ISegment seg = unit.addSegment();
 		seg.setId("u1-s1");
@@ -78,19 +99,15 @@ public class FormatterTests {
 		seg.setState(TargetState.TRANSLATED);
 		
 		// Add a group
-		IGroup group = sd.addGroup();
-		group.setId("g1");
+		IGroup group = sd.addGroup("g1");
 		// Add a unit in the group
-		unit = group.addUnit();
-		unit.setId("g1-u1");
+		unit = group.addUnit("g1-u1");
 		// Add a group to the group
-		IGroup group2 = sd.addGroup();
-		group2.setId("g2");
+		IGroup group2 = sd.addGroup("g2");
 		group2.setCanResegment(false);
 		group2.setTranslate(false);
 		// Add a unit in the nested group
-		unit = group2.addUnit();
-		unit.setId("g2-u1");
+		unit = group2.addUnit("g2-u1");
 		seg = unit.addSegment();
 		seg.setId("g2-u1-s1");
 		seg.getSource().append("Source for g2-u1-s1.");
@@ -106,20 +123,17 @@ public class FormatterTests {
 		sd.setOriginal("Graphic Example.psd");
 		sd.newSkeleton().setRef("Graphic Example.psd.skl");
 		
-		IUnit unit = sd.addUnit();
-		unit.setId("1");
+		IUnit unit = sd.addUnit("1");
 		ISegment seg = unit.addSegment();
 		seg.getSource().append("Quetzal");
 		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("Quetzal");
 		
-		unit = sd.addUnit();
-		unit.setId("2");
+		unit = sd.addUnit("2");
 		seg = unit.addSegment();
 		seg.getSource().append("An application to manipulate and process XLIFF documents");
 		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("XLIFF \u6587\u66f8\u3092\u7de8\u96c6\u3001\u307e\u305f\u306f\u51e6\u7406 \u3059\u308b\u30a2\u30d7\u30ea\u30b1\u30fc\u30b7\u30e7\u30f3\u3067\u3059\u3002");
 		
-		unit = sd.addUnit();
-		unit.setId("3");
+		unit = sd.addUnit("3");
 		seg = unit.addSegment();
 		seg.getSource().append("XLIFF Data Manager");
 		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("XLIFF \u30c7\u30fc\u30bf\u30fb\u30de\u30cd\u30fc\u30b8\u30e3");
@@ -132,8 +146,7 @@ public class FormatterTests {
 		doc.setSrcLang("fr");
 		ISubDocument sd = doc.addSubDocument("f1");
 		
-		IUnit unit = sd.addUnit();
-		unit.setId("u1");
+		IUnit unit = sd.addUnit("u1");
 		ISegment seg = unit.addSegment();
 		seg.setCanResegment(false);
 		seg.setState(TargetState.TRANSLATED);
