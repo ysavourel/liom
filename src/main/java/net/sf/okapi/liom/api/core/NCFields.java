@@ -17,6 +17,7 @@
 package net.sf.okapi.liom.api.core;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import org.oasisopen.liom.api.core.INCFields;
@@ -52,6 +53,16 @@ public class NCFields implements INCFields {
 		if ( map != null ) {
 			map.remove(name);
 		}
+	}
+
+	@Override
+	public boolean isEmpty () {
+		return (( map == null ) || map.isEmpty() );
+	}
+
+	@Override
+	public Iterator<String> iterator () {
+		return map.keySet().iterator();
 	}
 
 }

@@ -17,13 +17,16 @@
 package org.oasisopen.liom.api.glossary;
 
 import org.oasisopen.liom.api.core.ICollection;
+import org.oasisopen.liom.api.core.IWithNCFields;
 
-public interface IGlossEntry extends ICollection<ITranslation> {
+public interface IGlossEntry extends IWithNCFields, ICollection<ITranslation> {
 
 	public String getId ();
+	
 	public IGlossEntry setId (String id);
 
 	public String getRef ();
+	
 	public IGlossEntry setRef (String ref);
 
 	public ITerm getTerm ();

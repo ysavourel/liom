@@ -21,10 +21,6 @@ package org.oasisopen.liom.api.core;
  */
 public enum AppliesTo {
 	/**
-	 * The note does not applies to a specific type of object.
-	 */
-	UNDEFINED(""),
-	/**
 	 * The note applies to the source.
 	 */
 	SOURCE("source"),

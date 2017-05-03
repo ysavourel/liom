@@ -26,7 +26,7 @@ public class Note implements INote {
 	private transient IWithNotes parent;
 
 	private String id;
-	private AppliesTo appliesTo = AppliesTo.UNDEFINED;
+	private AppliesTo appliesTo;
 	private String category;
 	private int priority = 1;
 	private INCFields ncFlds;
@@ -110,6 +110,11 @@ public class Note implements INote {
 			ncFlds = new NCFields();
 		}
 		return ncFlds;
+	}
+
+	@Override
+	public boolean hasNCField () {
+		return (( ncFlds != null ) && !ncFlds.isEmpty() );
 	}
 
 }

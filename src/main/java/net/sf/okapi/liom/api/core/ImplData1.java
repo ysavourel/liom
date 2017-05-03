@@ -87,4 +87,9 @@ implements IWithContext, IWithNotes, IWithNCObjects, IWithNCFields {
 		return ncFlds;
 	}
 
+	@Override
+	public boolean hasNCField () {
+		return (( ncFlds != null ) && !ncFlds.isEmpty() );
+	}
+
 }

@@ -28,6 +28,7 @@ import org.oasisopen.liom.api.core.TargetState;
 import org.oasisopen.liom.api.glossary.IGlossEntry;
 
 import net.sf.okapi.liom.api.core.Factory;
+import net.sf.okapi.liom.api.core.Unit;
 
 public class FormatterTests {
 
@@ -65,11 +66,16 @@ public class FormatterTests {
 		IDocument doc = Factory.SI.createDocument().setSrcLang("en").setTrgLang("fy");
 		// Create a sub-document and a group
 		IGroup group = doc.addSubDocument("f1").addGroup("g1");
+		
 		// Create a first unit and its source and target
 		ISegment seg = group.addUnit("u1").addSegment();
 		seg.getSource().append("Summer is coming.");
 		seg.setState(TargetState.TRANSLATED) // Set the target as 'translated'
 			.getTarget(IfNoTarget.CREATE_EMPTY).append("Simmer komt deroan.");
+		// Add a couple of non-core fields
+		seg.getParent().getNCFields().set("my:ncName1", "ncValue1");
+		seg.getParent().getNCFields().set("my:ncName2", "ncValue2");
+		
 		// Create a second unit with source (two segments and one ignorable)
 		IUnit unit = group.addUnit("u2");
 		unit.addSegment().getSource().append("Summer will be hot.");
@@ -81,9 +87,33 @@ public class FormatterTests {
 		IGlossEntry ge = unit.getGlossary().addEntry();
 		ge.newTerm("hot");
 		ge.addTranslation("hyt").setSource("Google");
+		// Add non-core fields to the glossary entry
+		ge.getNCFields().set("my:ncName3", "ncValue3");
+		
 		// Output it in JLIFF
 		Formatter fmt = new Formatter();
 		fmt.process(doc);
+		System.out.println(fmt.makePretty(fmt.getOutput()));
+	}
+
+	@Test
+	public void testUnit1 () {
+		IUnit unit = new Unit(null, "u1");
+		unit.setName("name");
+		unit.setType("unit-type");
+		unit.addSegment().getSource().append("Source");
+		ISegment seg = unit.addSegment();
+		seg.getTarget(IfNoTarget.CREATE_EMPTY).append("Target");
+		seg.setState(TargetState.TRANSLATED);
+		seg.setSubState("my:trans-step");
+		
+		unit.addNote().setId("n1").setAppliesTo(AppliesTo.TARGET).setText("Text for n1");
+		IGlossEntry ge = unit.getGlossary().addEntry();
+		ge.setId("ge1").newTerm("term value");
+		
+		// Output it in JLIFF
+		Formatter fmt = new Formatter();
+		fmt.process(unit);
 		System.out.println(fmt.makePretty(fmt.getOutput()));
 	}
 	

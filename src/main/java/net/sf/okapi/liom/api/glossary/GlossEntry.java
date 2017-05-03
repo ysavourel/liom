@@ -16,15 +16,18 @@
 
 package net.sf.okapi.liom.api.glossary;
 
+import org.oasisopen.liom.api.core.INCFields;
 import org.oasisopen.liom.api.glossary.IDefinition;
 import org.oasisopen.liom.api.glossary.IGlossEntry;
 import org.oasisopen.liom.api.glossary.ITerm;
 import org.oasisopen.liom.api.glossary.ITranslation;
 
 import net.sf.okapi.liom.api.core.BaseCollection;
+import net.sf.okapi.liom.api.core.NCFields;
 
 public class GlossEntry extends BaseCollection<ITranslation> implements IGlossEntry {
 
+	private NCFields ncFlds;
 	private String id;
 	private String ref;
 	private Term term;
@@ -96,5 +99,21 @@ public class GlossEntry extends BaseCollection<ITranslation> implements IGlossEn
 		definition = new Definition(text);
 		return definition;
 	}
+
+	@Override
+	public boolean hasNCField (String name) {
+		return (( ncFlds != null ) && ncFlds.has(name) );
+	}
+
+	@Override
+	public INCFields getNCFields () {
+		if ( ncFlds == null ) ncFlds = new NCFields();
+		return ncFlds;
+	}
+
+	@Override
+	public boolean hasNCField () {
+		return (( ncFlds != null ) && !ncFlds.isEmpty() );
+	};
 
 }

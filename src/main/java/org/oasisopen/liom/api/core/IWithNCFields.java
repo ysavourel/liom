@@ -18,6 +18,8 @@ package org.oasisopen.liom.api.core;
 
 public interface IWithNCFields {
 
+	public boolean hasNCField ();
+	
 	public boolean hasNCField (String name);
 	
 	public INCFields getNCFields ();

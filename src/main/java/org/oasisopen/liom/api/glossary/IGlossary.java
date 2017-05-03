@@ -18,7 +18,7 @@ package org.oasisopen.liom.api.glossary;
 
 import org.oasisopen.liom.api.core.ICollection;
 
-public interface IGlossary extends ICollection<IGlossEntry>{
+public interface IGlossary extends ICollection<IGlossEntry> {
 
 	public IGlossEntry addEntry ();
 

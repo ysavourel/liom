@@ -27,6 +27,6 @@ public class Glossary extends BaseCollection<IGlossEntry> implements IGlossary {
 		GlossEntry ge = new GlossEntry();
 		list.add(ge);
 		return ge;
-	};
+	}
 
 }

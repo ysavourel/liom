@@ -19,7 +19,7 @@ package org.oasisopen.liom.api.core;
 /**
  * Provides access to a set of non-core fields.
  */
-public interface INCFields {
+public interface INCFields extends Iterable<String> {
 
 	/**
 	 * Indicates if a field exists.
@@ -49,4 +49,6 @@ public interface INCFields {
 	 */
 	public void remove (String name);
 
+	public boolean isEmpty ();
+	
 }

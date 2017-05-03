@@ -21,6 +21,7 @@ import org.oasisopen.liom.api.core.IContent;
 import org.oasisopen.liom.api.core.IDocument;
 import org.oasisopen.liom.api.core.IGroup;
 import org.oasisopen.liom.api.core.IGroupOrUnit;
+import org.oasisopen.liom.api.core.INCFields;
 import org.oasisopen.liom.api.core.INote;
 import org.oasisopen.liom.api.core.ISegment;
 import org.oasisopen.liom.api.core.ISkeleton;
@@ -28,6 +29,7 @@ import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
+import org.oasisopen.liom.api.core.IWithNCFields;
 import org.oasisopen.liom.api.core.IWithNotes;
 import org.oasisopen.liom.api.core.TargetState;
 import org.oasisopen.liom.api.glossary.IDefinition;
@@ -69,6 +71,11 @@ public class Formatter {
 		out.append("}"); // End document
 	}
 
+	public void process (IUnit unit) {
+		out = new StringBuilder("");
+		toJLIFF ((IGroupOrUnit)unit, null, out);
+	}
+	
 	// Returns true if the next field at the same level will need a leading comma, false otherwise. 
 	boolean inn (String name,
 		String value,
@@ -213,10 +220,27 @@ public class Formatter {
 				}
 				sb.append("]");
 			}
+
+			withNCFieldsToJLIFF(entry, true, sb);
 			
 			sb.append("}"); // End entry
 		}
 		sb.append("]");
+	}
+
+	void withNCFieldsToJLIFF (IWithNCFields item,
+		boolean needComma,
+		StringBuilder sb)
+	{
+		if ( !item.hasNCField() ) return;
+		if ( needComma ) sb.append(",");
+		sb.append("\"ncFields\":{");
+		boolean needComma2 = false;
+		INCFields flds = item.getNCFields();
+		for ( String name : flds ) {
+			needComma2 = inn(name, flds.get(name), needComma2, sb);
+		}
+		sb.append("}");
 	}
 
 	void subDocGroupsOrUnits (ISubDocument item,
@@ -238,8 +262,9 @@ public class Formatter {
 		sb.append("{");
 		sb.append("\"isUnit\":"+gson.toJson(item.isUnit()));
 		sb.append(",\"id\":"+gson.toJson(item.getId()));
-		withContextToJLIFF((IWithContext)item, parent, sb);
-		withNotesToJLIFF((IWithNotes)item, sb, true);
+		withContextToJLIFF(item, parent, sb);
+		withNotesToJLIFF(item, sb, true);
+		withNCFieldsToJLIFF(item, true, sb);
 		if ( item.isUnit() ) {
 			unitToJLIFF(item.asUnit(), sb);
 		}
@@ -259,7 +284,7 @@ public class Formatter {
 	private void unitToJLIFF (IUnit unit,
 		StringBuilder sb)
 	{
-		sb.append(",\"subunits\":[");
+		sb.append(",\"subUnits\":[");
 		for ( int i=0; i<unit.size(); i++ ) {
 			if ( i>0 ) sb.append(",");
 			toJLIFF(unit.get(i), sb);
