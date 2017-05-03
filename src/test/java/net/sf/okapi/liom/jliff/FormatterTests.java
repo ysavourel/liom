@@ -25,6 +25,7 @@ import org.oasisopen.liom.api.core.ISubDocument;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IfNoTarget;
 import org.oasisopen.liom.api.core.TargetState;
+import org.oasisopen.liom.api.glossary.IGlossEntry;
 
 import net.sf.okapi.liom.api.core.Factory;
 
@@ -74,6 +75,12 @@ public class FormatterTests {
 		unit.addSegment().getSource().append("Summer will be hot.");
 		unit.addIgnorable().getSource().append(' ');
 		unit.addSegment().getSource().append("But I will be at the beach.");
+		// Add glossary
+		unit.getGlossary().addEntry().setId("ge1").newTerm("Term text").setSource("Term source");
+		// Add second glossary entry
+		IGlossEntry ge = unit.getGlossary().addEntry();
+		ge.newTerm("hot");
+		ge.addTranslation("hyt").setSource("Google");
 		// Output it in JLIFF
 		Formatter fmt = new Formatter();
 		fmt.process(doc);

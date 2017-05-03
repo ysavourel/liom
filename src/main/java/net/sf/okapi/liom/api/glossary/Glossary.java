@@ -16,8 +16,17 @@
 
 package net.sf.okapi.liom.api.glossary;
 
+import org.oasisopen.liom.api.glossary.IGlossEntry;
 import org.oasisopen.liom.api.glossary.IGlossary;
 
-public class Glossary implements IGlossary {
+import net.sf.okapi.liom.api.core.BaseCollection;
+
+public class Glossary extends BaseCollection<IGlossEntry> implements IGlossary {
+
+	public IGlossEntry addEntry () {
+		GlossEntry ge = new GlossEntry();
+		list.add(ge);
+		return ge;
+	};
 
 }

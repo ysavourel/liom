@@ -18,8 +18,22 @@ package org.oasisopen.liom.api.glossary;
 
 import org.oasisopen.liom.api.core.ICollection;
 
-public interface IGlossary extends ICollection<IGlossEntry>{
+public interface IGlossEntry extends ICollection<ITranslation> {
 
-	public IGlossEntry addEntry ();
+	public String getId ();
+	public IGlossEntry setId (String id);
+
+	public String getRef ();
+	public IGlossEntry setRef (String ref);
+
+	public ITerm getTerm ();
+
+	public ITerm newTerm (String text);
+
+	public IDefinition getDefinition ();
+	
+	public IDefinition newDefinition (String text);
+
+	public ITranslation addTranslation (String text);
 
 }

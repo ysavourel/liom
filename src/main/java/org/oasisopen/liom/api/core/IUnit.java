@@ -16,7 +16,9 @@
 
 package org.oasisopen.liom.api.core;
 
-public interface IUnit extends IGroupOrUnit, ICollection<ISubUnit> {
+import org.oasisopen.liom.api.glossary.IWithGlossary;
+
+public interface IUnit extends IGroupOrUnit, IWithGlossary, ICollection<ISubUnit> {
 
 	public ISegment addSegment ();
 	

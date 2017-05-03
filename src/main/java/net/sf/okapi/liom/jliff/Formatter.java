@@ -30,6 +30,12 @@ import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithContext;
 import org.oasisopen.liom.api.core.IWithNotes;
 import org.oasisopen.liom.api.core.TargetState;
+import org.oasisopen.liom.api.glossary.IDefinition;
+import org.oasisopen.liom.api.glossary.IGlossEntry;
+import org.oasisopen.liom.api.glossary.IGlossary;
+import org.oasisopen.liom.api.glossary.ITerm;
+import org.oasisopen.liom.api.glossary.ITranslation;
+import org.oasisopen.liom.api.glossary.IWithGlossary;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -63,14 +69,19 @@ public class Formatter {
 		out.append("}"); // End document
 	}
 
-	void inn (String name,
+	// Returns true if the next field at the same level will need a leading comma, false otherwise. 
+	boolean inn (String name,
 		String value,
 		boolean leadComma,
 		StringBuilder sb)
 	{
-		if ( value == null ) return;
+		if ( value == null ) {
+			// This field was not written, the next will need a comma if this one would have need one
+			return leadComma;
+		}
 		if ( leadComma ) sb.append(',');
 		sb.append("\""+name+"\":"+gson.toJson(value));
+		return true; // The field was written, so the next will need a comma
 	}
 
 	String toJLIFF (IDocument document) {
@@ -148,6 +159,66 @@ public class Formatter {
 		sb.append("]");
 	}
 
+	void withGlossaryToJLIFF (IWithGlossary item,
+		StringBuilder sb,
+		boolean leadComma)
+	{
+		if ( !item.hasGlossary() ) return;
+
+		if ( leadComma ) sb.append(",");
+		sb.append("\"glossary\":[");
+		IGlossary glossary = item.getGlossary();
+		for ( int i=0; i<glossary.size(); i++ ) {
+			IGlossEntry entry = glossary.get(i);
+			
+			if ( i>0 ) sb.append(",");
+			sb.append("{");
+			
+			boolean needComma2 = false;
+			needComma2 = inn("id", entry.getId(), needComma2, sb);
+			needComma2 = inn("ref", entry.getRef(), needComma2, sb);
+			
+			// Term
+			ITerm term = entry.getTerm();
+			if ( needComma2 ) sb.append(",");
+			sb.append("\"term\":{");
+			boolean needComma3 = false;
+			needComma3 = inn("text", term.getText(), needComma3, sb);
+			inn("source", term.getSource(), needComma3, sb);
+			sb.append("}");
+			
+			// Definition
+			IDefinition def = entry.getDefinition();
+			if ( def != null ) {
+				sb.append(",\"definition\":{");
+				needComma3 = false;
+				needComma3 = inn("text", def.getText(), needComma3, sb);
+				inn("source", def.getSource(), needComma3, sb);
+				sb.append("}");
+			}
+			
+			// Translations
+			if ( !entry.isEmpty() ) {
+				sb.append(",\"translations\":[");
+				for ( int j=0; j<entry.size(); j++ ) {
+					if ( j>0 ) sb.append(",");
+					sb.append("{");
+					ITranslation trans = entry.get(j);
+					needComma3 = false;
+					needComma3 = inn("text", trans.getText(), needComma3, sb);
+					needComma3 = inn("source", trans.getSource(), needComma3, sb);
+					needComma3 = inn("id", trans.getId(), needComma3, sb);
+					inn("ref", trans.getRef(), needComma3, sb);
+					sb.append("}");
+				}
+				sb.append("]");
+			}
+			
+			sb.append("}"); // End entry
+		}
+		sb.append("]");
+	}
+
 	void subDocGroupsOrUnits (ISubDocument item,
 		StringBuilder sb)
 	{
@@ -166,6 +237,7 @@ public class Formatter {
 	{
 		sb.append("{");
 		sb.append("\"isUnit\":"+gson.toJson(item.isUnit()));
+		sb.append(",\"id\":"+gson.toJson(item.getId()));
 		withContextToJLIFF((IWithContext)item, parent, sb);
 		withNotesToJLIFF((IWithNotes)item, sb, true);
 		if ( item.isUnit() ) {
@@ -193,6 +265,7 @@ public class Formatter {
 			toJLIFF(unit.get(i), sb);
 		}
 		sb.append("]");
+		withGlossaryToJLIFF(unit, sb, true);
 	}
 	
 	void toJLIFF (ISubUnit su,

@@ -16,10 +16,14 @@
 
 package org.oasisopen.liom.api.glossary;
 
-import org.oasisopen.liom.api.core.ICollection;
+public interface IDefinition {
 
-public interface IGlossary extends ICollection<IGlossEntry>{
-
-	public IGlossEntry addEntry ();
-
+	public String getText ();
+	
+	public IDefinition setText (String text);
+	
+	public String getSource ();
+	
+	public IDefinition setSource (String source);
+	
 }

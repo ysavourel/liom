@@ -21,10 +21,15 @@ import org.oasisopen.liom.api.core.ISegment;
 import org.oasisopen.liom.api.core.ISubUnit;
 import org.oasisopen.liom.api.core.IUnit;
 import org.oasisopen.liom.api.core.IWithGroupOrUnit;
+import org.oasisopen.liom.api.glossary.IGlossary;
+
+import net.sf.okapi.liom.api.glossary.Glossary;
 
 public class Unit extends ImplData3<ISubUnit> implements IUnit {
 
 	final private Store store;
+	
+	private Glossary glossary;
 	
 	public Unit (IWithGroupOrUnit parent,
 		String id)
@@ -87,6 +92,19 @@ public class Unit extends ImplData3<ISubUnit> implements IUnit {
 		}
 		// Check the tags
 		return store.getTag(id);
+	}
+
+	@Override
+	public boolean hasGlossary () {
+		return (( glossary != null ) && !glossary.isEmpty() );
+	}
+
+	@Override
+	public IGlossary getGlossary () {
+		if ( glossary == null ) {
+			glossary = new Glossary();
+		}
+		return glossary;
 	}
 
 }

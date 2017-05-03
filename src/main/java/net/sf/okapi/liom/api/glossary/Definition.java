@@ -14,12 +14,43 @@
   limitations under the License.
 ===========================================================================*/
 
-package org.oasisopen.liom.api.glossary;
+package net.sf.okapi.liom.api.glossary;
 
-import org.oasisopen.liom.api.core.ICollection;
+import org.oasisopen.liom.api.glossary.IDefinition;
 
-public interface IGlossary extends ICollection<IGlossEntry>{
+public class Definition implements IDefinition {
 
-	public IGlossEntry addEntry ();
+	private String text;
+	private String source;
 
+	/**
+	 * Creates a {@link Definition} object with a given text.
+	 * @param text the text of the definition.
+	 */
+	public Definition (String text) {
+		setText(text);
+	}
+
+	@Override
+	public String getText () {
+		return text;
+	}
+
+	@Override
+	public IDefinition setText (String text) {
+		this.text = text;
+		return this;
+	}
+
+	@Override
+	public String getSource () {
+		return source;
+	}
+
+	@Override
+	public IDefinition setSource (String source) {
+		this.source = source;
+		return this;
+	}
+	
 }
